@@ -87,6 +87,24 @@ Execute commands:
     cd $GOPATH/src/github.com/vuonglequoc/openvpn-web-ui
     bee run -gendoc=true
 
+## Important Note
+
+OpenVPNAdmin will manage OpenVPN daemon via management api.
+
+https://openvpn.net/community-resources/how-to/
+
+In order to enable management api for OpenVPN daemon, we need to add below config to the config file `server.conf`:
+
+`management 0.0.0.0 2080`
+
+In the `Settings` of OpenVPNAdmin, update `Management interface address` with IP of OpenVPN daemon and same port as above (2080).
+
+OpenVPNAdmin will read OpenVPN daemon log from `/etc/openvpn/openvpn.log`.
+
+In order to enable this log for OpenVPN daemon, we need to add below config to the config file `server.conf`:
+
+`log-append /etc/openvpn/openvpn.log`
+
 ## Todo
 
 * add unit tests
