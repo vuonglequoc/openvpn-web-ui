@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/validation"
+	"github.com/beego/beego"
+	"github.com/beego/beego/validation"
 )
 
 //CreateValidationMap ranslates validation structure to map

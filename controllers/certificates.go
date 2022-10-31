@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/adamwalach/go-openvpn/client/config"
-	"github.com/adamwalach/openvpn-web-ui/lib"
-	"github.com/adamwalach/openvpn-web-ui/models"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/validation"
+	"github.com/vuonglequoc/go-openvpn/client/config"
+	"github.com/vuonglequoc/openvpn-web-ui/lib"
+	"github.com/vuonglequoc/openvpn-web-ui/models"
+	"github.com/beego/beego"
+	"github.com/beego/beego/validation"
 )
 
 type NewCertParams struct {

@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/adamwalach/openvpn-web-ui/models"
-	"github.com/astaxie/beego"
+	"github.com/vuonglequoc/openvpn-web-ui/models"
+	"github.com/beego/beego"
 )
 
 type LogsController struct {

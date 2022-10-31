@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/astaxie/beego"
+import "github.com/beego/beego"
 
 type APIBaseController struct {
 	BaseController

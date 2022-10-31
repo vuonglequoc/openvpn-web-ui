@@ -3,9 +3,9 @@ package models
 import (
 	"os"
 
-	"github.com/adamwalach/go-openvpn/server/config"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
+	"github.com/vuonglequoc/go-openvpn/server/config"
+	"github.com/beego/beego"
+	"github.com/beego/beego/orm"
 	passlib "gopkg.in/hlandau/passlib.v1"
 )
 

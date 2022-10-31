@@ -3,12 +3,12 @@ package controllers
 import (
 	"html/template"
 
-	"github.com/adamwalach/go-openvpn/server/config"
-	mi "github.com/adamwalach/go-openvpn/server/mi"
-	"github.com/adamwalach/openvpn-web-ui/lib"
-	"github.com/adamwalach/openvpn-web-ui/models"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
+	"github.com/vuonglequoc/go-openvpn/server/config"
+	mi "github.com/vuonglequoc/go-openvpn/server/mi"
+	"github.com/vuonglequoc/openvpn-web-ui/lib"
+	"github.com/vuonglequoc/openvpn-web-ui/models"
+	"github.com/beego/beego"
+	"github.com/beego/beego/orm"
 )
 
 type OVConfigController struct {
