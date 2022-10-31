@@ -1,6 +1,7 @@
 # OpenVPN-web-ui
 
 ## Summary
+
 OpenVPN server web administration interface.
 
 Goal: create quick to deploy and easy to use solution that makes work with small OpenVPN environments a breeze.
@@ -12,8 +13,6 @@ If you have docker and docker-compose installed, you can jump directly to [insta
 Please note this project is in alpha stage. It still needs some work to make it secure and feature complete.
 
 ## Motivation
-
-
 
 ## Features
 
@@ -49,7 +48,6 @@ Execute commands
 
 It starts two docker containers. One with OpenVPN server and second with OpenVPNAdmin web application. Through a docker volume it creates following directory structure:
 
-
     .
     ├── docker-compose.yml
     └── openvpn-data
@@ -79,8 +77,9 @@ It starts two docker containers. One with OpenVPN server and second with OpenVPN
 ### Dev
 
 Requirements:
-* golang environments
-* [beego](https://beego.me/docs/install/)
+* [golang 1.19.2](https://hub.docker.com/_/golang)
+* [beego v2.0.5](https://github.com/beego/beego)
+* [bee v2.0.4](https://github.com/beego/bee)
 
 Execute commands:
 
@@ -104,14 +103,9 @@ This project uses [MIT license](LICENSE)
 ## Remarks
 
 ### Vendoring
-https://github.com/kardianos/govendor is used for vendoring.
-
 To update dependencies from GOPATH:
 
-`govendor update +v`
+`go mod vendor`
 
 ### Template
-AdminLTE - dashboard & control panel theme. Built on top of Bootstrap 3.
-
-Preview: https://almsaeedstudio.com/themes/AdminLTE/index2.html
-
+[AdminLTE](https://github.com/ColorlibHQ/AdminLTE) - dashboard & control panel theme. Built on top of Bootstrap 3.
