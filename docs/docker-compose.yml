@@ -16,7 +16,7 @@ services:
       - ./openvpn-data/openvpn:/etc/openvpn
 
   gui:
-    image: vuongle/openvpn-web-ui
+    image: vuonglequoc/openvpn-web-ui
     container_name: openvpn-gui
     ports:
       - "8080:8080/tcp"
