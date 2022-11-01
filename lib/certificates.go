@@ -140,18 +140,54 @@ func CreateCertificate(name string) error {
 	// upgrade <type>
 
 	rsaPath := "/usr/share/easy-rsa/"
-	varsPath := models.GlobalCfg.OVConfigPath + "keys/vars"
-	cmd := exec.Command("/bin/bash", "-c",
+	ovpnPath := models.GlobalCfg.OVConfigPath
+	caPath := models.GlobalCfg.CAConfigPath
+
+	// Creating an OpenVPN Server Certificate Request and Private Key
+	cmd := exec.Command(
+		"/bin/sh",
+		"-c",
 		fmt.Sprintf(
-			"source %s &&"+
-				"export KEY_NAME=%s &&"+
-				"%s/build-key --batch %s", varsPath, name, rsaPath, name))
-	cmd.Dir = models.GlobalCfg.OVConfigPath
+			"echo -e \"%s\" | %s/easyrsa gen-req client_%s nopass",
+			name, rsaPath, name))
+	cmd.Dir = ovpnPath
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		beego.Debug(string(output))
 		beego.Error(err)
 		return err
 	}
+
+	// Signing the OpenVPN Server’s Certificate Request
+	cmd = exec.Command(
+		"/bin/sh",
+		"-c",
+		fmt.Sprintf(
+			"%s/easyrsa import-req %s/pki/reqs/client_%s.req client_%s" +
+			" && echo -e \"yes\" | %s/easyrsa sign-req client client_%s",
+			rsaPath, ovpnPath, name, name, rsaPath, name))
+	cmd.Dir = caPath
+	output, err = cmd.CombinedOutput()
+	if err != nil {
+		beego.Debug(string(output))
+		beego.Error(err)
+		return err
+	}
+
+	// Copy Signed Certificate
+	cmd = exec.Command(
+		"/bin/sh",
+		"-c",
+		fmt.Sprintf(
+			"cp %s/pki/issued/client_%s.crt %s/client-configs/keys/client_%s.crt",
+			caPath, name, ovpnPath, name))
+	cmd.Dir = caPath
+	output, err = cmd.CombinedOutput()
+	if err != nil {
+		beego.Debug(string(output))
+		beego.Error(err)
+		return err
+	}
+
 	return nil
 }

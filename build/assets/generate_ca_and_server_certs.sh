@@ -27,7 +27,7 @@ echo "set_var EASYRSA_DIGEST sha512 " >> $OPENVPN/vars
 $EASY_RSA/easyrsa init-pki
 
 # Creating an OpenVPN Server Certificate Request and Private Key
-echo -e "server" | $EASY_RSA/easyrsa gen-req $SERVER_NAME nopass
+echo -e "$SERVER_NAME" | $EASY_RSA/easyrsa gen-req $SERVER_NAME nopass
 # key: $OPENVPN/pki/private/SERVER_NAME.key
 # req: $OPENVPN/pki/reqs/SERVER_NAME.req
 
@@ -37,6 +37,7 @@ $EASY_RSA/easyrsa import-req $OPENVPN/pki/reqs/$SERVER_NAME.req $SERVER_NAME
 echo -e "yes" | $EASY_RSA/easyrsa sign-req server $SERVER_NAME
 # cert: $CA_SERVER/pki/issued/SERVER_NAME.crt
 
+# Copy Signed Certificate
 cp $CA_SERVER/pki/issued/$SERVER_NAME.crt $OPENVPN/pki/$SERVER_NAME.crt
 cp $CA_SERVER/pki/ca.crt $OPENVPN/pki/ca.crt
 # cert: $OPENVPN/pki/SERVER_NAME.crt
