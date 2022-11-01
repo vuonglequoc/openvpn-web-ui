@@ -111,6 +111,9 @@ func trim(s string) string {
 }
 
 func CreateCertificate(name string) error {
+	// source /etc/openvpn/keys/vars \
+	// 	&& export KEY_NAME=[name] \
+	// 	&& /usr/share/easy-rsa/build-key --batch [name]
 	rsaPath := "/usr/share/easy-rsa/"
 	varsPath := models.GlobalCfg.OVConfigPath + "keys/vars"
 	cmd := exec.Command("/bin/bash", "-c",
