@@ -138,16 +138,18 @@ func validateCertParams(cert NewCertParams) map[string]map[string]string {
 
 func saveClientConfig(name string) (string, error) {
 	cfg := config.New()
-	cfg.ServerAddress = models.GlobalCfg.ServerAddress
-	cfg.Cert = name + ".crt"
-	cfg.Key = name + ".key"
 	serverConfig := models.OVConfig{Profile: "default"}
 	serverConfig.Read("Profile")
-	cfg.Port = serverConfig.Port
+
 	cfg.Proto = serverConfig.Proto
-	cfg.Auth = serverConfig.Auth
+	cfg.ServerAddress = models.GlobalCfg.ServerAddress
+	cfg.Port = serverConfig.Port
+
+	cfg.Cert = name + ".crt"
+	cfg.Key = name + ".key"
+
 	cfg.Cipher = serverConfig.Cipher
-	cfg.Keysize = serverConfig.Keysize
+	cfg.Auth = serverConfig.Auth
 
 	destPath := models.GlobalCfg.OVConfigPath + "keys/" + name + ".conf"
 	if err := config.SaveToFile("conf/openvpn-client-config.tpl",

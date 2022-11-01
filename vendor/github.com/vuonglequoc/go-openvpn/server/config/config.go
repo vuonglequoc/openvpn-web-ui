@@ -9,32 +9,43 @@ import (
 var defaultConfig = Config{
 	Port:                1194,
 	Proto:               "udp",
-	Cipher:              "AES-256-CBC",
-	Keysize:             256,
-	Auth:                "SHA256",
+	Ca:                  "ca.crt",
+	Cert:                "server.crt",
+	Key:                 "server.key",
 	Dh:                  "dh2048.pem",
-	Keepalive:           "10 120",
+	Server:              "10.8.0.0 255.255.255.0",
 	IfconfigPoolPersist: "ipp.txt",
+	Keepalive:           "10 120",
+	TaKey:               "ta.key",
+	Cipher:              "AES-256-CBC",
+	Auth:                "SHA256",
+	MaxClients:          100,
+	Management:          "0.0.0.0 2080",
 }
 
 //Config model
 type Config struct {
-	Port  int
+	Port int
 	Proto string
 
-	Ca   string
+	Ca string
 	Cert string
-	Key  string
+	Key string
 
-	Cipher  string
-	Keysize int
-	Auth    string
-	Dh      string
+	Dh string
 
-	Server              string
+	Server string
+
 	IfconfigPoolPersist string
-	Keepalive           string
-	MaxClients          int
+
+	Keepalive string
+
+	TaKey string
+
+	Cipher string
+	Auth string
+
+	MaxClients int
 
 	Management string
 }

@@ -55,27 +55,6 @@
       </div>
 
       <div class="form-group">
-        <label for="name">Cipher</label>
-        <input type="text" class="form-control" name="Cipher" id="Cipher" placeholder=""
-          value="{{ .Settings.Cipher }}">
-        <span id="helpBlock" class="help-block"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="name">Keysize</label>
-        <input type="text" class="form-control" name="Keysize" id="Keysize" placeholder=""
-          value="{{ .Settings.Keysize }}">
-        <span id="helpBlock" class="help-block"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="name">Auth</label>
-        <input type="text" class="form-control" name="Auth" id="Auth" placeholder=""
-          value="{{ .Settings.Auth }}">
-        <span id="helpBlock" class="help-block"></span>
-      </div>
-
-      <div class="form-group">
         <label for="name">Dh</label>
         <input type="text" class="form-control" name="Dh" id="Dh" placeholder=""
           value="{{ .Settings.Dh }}">
@@ -88,6 +67,18 @@
           value="{{ .Settings.Server }}">
         <span id="helpBlock" class="help-block">Configures server mode and supply a VPN subnet
             for OpenVPN to draw client addresses from.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="name">IfconfigPoolPersist</label>
+        <input type="text" class="form-control" name="IfconfigPoolPersist" id="IfconfigPoolPersist" placeholder=""
+          value="{{ .Settings.IfconfigPoolPersist }}">
+        <span id="helpBlock" class="help-block">
+          Maintain a record of client <-> virtual IP address
+            associations in this file.  If OpenVPN goes down or
+            is restarted, reconnecting clients can be assigned
+            the same virtual IP address from the pool that was
+            previously assigned.</span>
       </div>
 
       <div class="form-group">
@@ -104,15 +95,24 @@
       </div>
 
       <div class="form-group">
-        <label for="name">IfconfigPoolPersist</label>
-        <input type="text" class="form-control" name="IfconfigPoolPersist" id="IfconfigPoolPersist" placeholder=""
-          value="{{ .Settings.IfconfigPoolPersist }}">
-        <span id="helpBlock" class="help-block">
-          Maintain a record of client <-> virtual IP address
-            associations in this file.  If OpenVPN goes down or
-            is restarted, reconnecting clients can be assigned
-            the same virtual IP address from the pool that was
-            previously assigned.</span>
+        <label for="name">Server Ta key (HMAC signature)</label>
+        <input type="text" class="form-control" name="TaKey" id="TaKey" placeholder="Enter server Ta key path"
+          value="{{ .Settings.TaKey }}">
+        <span id="helpBlock" class="help-block"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Cipher</label>
+        <input type="text" class="form-control" name="Cipher" id="Cipher" placeholder=""
+          value="{{ .Settings.Cipher }}">
+        <span id="helpBlock" class="help-block"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Auth</label>
+        <input type="text" class="form-control" name="Auth" id="Auth" placeholder=""
+          value="{{ .Settings.Auth }}">
+        <span id="helpBlock" class="help-block"></span>
       </div>
 
       <div class="form-group">
