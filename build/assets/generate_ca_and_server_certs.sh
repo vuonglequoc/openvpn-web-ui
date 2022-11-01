@@ -2,6 +2,8 @@
 
 EASY_RSA=/usr/share/easy-rsa
 
+SERVER_NAME=Server
+
 echo "Generating CA cert"
 
 # Preparing a Public Key Infrastructure Directory
@@ -12,12 +14,10 @@ $EASY_RSA/easyrsa init-pki
 cp $CA_SERVER/scripts/vars.template $CA_SERVER/vars
 
 # Creating a Certificate Authority
-$EASY_RSA/easyrsa --batch build-ca nopass
+$EASY_RSA/easyrsa --batch --req-cn=$SERVER_NAME build-ca nopass
 
 
 echo "Generating Server cert"
-
-SERVER_NAME=Server
 
 # Creating a PKI for OpenVPN
 cd $OPENVPN
