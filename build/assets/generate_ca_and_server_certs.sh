@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 EASY_RSA=/usr/share/easy-rsa
 
