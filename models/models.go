@@ -119,9 +119,9 @@ func createDefaultOVConfig() {
 		} else {
 			beego.Debug(c)
 		}
-		path := GlobalCfg.OVConfigPath + "/server.conf"
+		path := GlobalCfg.OVConfigPath + "server.conf"
 		if _, err = os.Stat(path); os.IsNotExist(err) {
-			destPath := GlobalCfg.OVConfigPath + "/server.conf"
+			destPath := GlobalCfg.OVConfigPath + "server.conf"
 			if err = config.SaveToFile("conf/openvpn-server-config.tpl",
 				c.Config, destPath); err != nil {
 				beego.Error(err)
