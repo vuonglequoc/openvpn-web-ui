@@ -1,25 +1,43 @@
 #!/bin/bash -e
 
-CA_NAME=LocalCA
-SERVER_NAME=server
 EASY_RSA=/usr/share/easy-rsa
 
-mkdir -p /etc/openvpn/keys
-touch /etc/openvpn/keys/index.txt
-echo 01 > /etc/openvpn/keys/serial
-cp -f /opt/scripts/vars.template /etc/openvpn/keys/vars
-
-$EASY_RSA/clean-all
-source /etc/openvpn/keys/vars
-export KEY_NAME=$CA_NAME
 echo "Generating CA cert"
-#$EASY_RSA/build-ca
-export EASY_RSA="${EASY_RSA:-.}"
 
-$EASY_RSA/pkitool --initca $*
+# Preparing a Public Key Infrastructure Directory
+cd $CA_SERVER
+$EASY_RSA/easyrsa init-pki
 
-export KEY_NAME=$SERVER_NAME
+# Prepare config params
+cp $CA_SERVER/scripts/vars.template $CA_SERVER/vars
 
-echo "Generating server cert"
-#$EASY_RSA/build-key-server $SERVER_NAME
-$EASY_RSA/pkitool --server $SERVER_NAME
+# Creating a Certificate Authority
+$EASY_RSA/easyrsa --batch build-ca nopass
+
+
+echo "Generating Server cert"
+
+SERVER_NAME=Server
+
+# Creating a PKI for OpenVPN
+cd $OPENVPN
+echo "set_var EASYRSA_ALGO ec" > $OPENVPN/vars
+echo "set_var EASYRSA_DIGEST sha512 " >> $OPENVPN/vars
+
+$EASY_RSA/easyrsa init-pki
+
+# Creating an OpenVPN Server Certificate Request and Private Key
+echo -e "server" | $EASY_RSA/easyrsa gen-req $SERVER_NAME nopass
+# key: $OPENVPN/pki/private/SERVER_NAME.key
+# req: $OPENVPN/pki/reqs/SERVER_NAME.req
+
+# Signing the OpenVPN Server’s Certificate Request
+cd $CA_SERVER
+$EASY_RSA/easyrsa import-req $OPENVPN/pki/reqs/$SERVER_NAME.req $SERVER_NAME
+echo -e "yes" | $EASY_RSA/easyrsa sign-req server $SERVER_NAME
+# cert: $CA_SERVER/pki/issued/SERVER_NAME.crt
+
+cp $CA_SERVER/pki/issued/$SERVER_NAME.crt $OPENVPN/pki/$SERVER_NAME.crt
+cp $CA_SERVER/pki/ca.crt $OPENVPN/pki/ca.crt
+# cert: $OPENVPN/pki/SERVER_NAME.crt
+# cert: $OPENVPN/pki/ca.crt

@@ -1,23 +1,27 @@
-version: '2'
+version: "3.9"
+
 services:
   openvpn:
     cap_add:
-     - NET_ADMIN
+      - NET_ADMIN
+      - SYS_PTRACE
     image: awalach/openvpn
     container_name: openvpn
     ports:
-     - "1194:1194/udp"
+      - "1194:1194/udp"
     restart: always
     depends_on:
       - "gui"
     volumes:
-     - ./openvpn-data/conf:/etc/openvpn
+      - ./openvpn-data/openvpn:/etc/openvpn
+
   gui:
-    image: awalach/openvpn-web-ui
+    image: vuongle/openvpn-web-ui
     container_name: openvpn-gui
     ports:
-     - "8080:8080/tcp"
+      - "8080:8080/tcp"
     restart: always
     volumes:
-     - ./openvpn-data/conf:/etc/openvpn
-     - ./openvpn-data/db:/opt/openvpn-gui/db
+      - ./openvpn-data/openvpn:/etc/openvpn
+      - ./openvpn-data/ca_server:/etc/ca_server
+      - ./openvpn-data/db:/opt/openvpn-gui/db

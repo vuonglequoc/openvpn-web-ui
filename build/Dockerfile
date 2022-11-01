@@ -1,15 +1,26 @@
-FROM debian:jessie
-WORKDIR /opt
-EXPOSE 8080
+# Refer to https://hub.docker.com/_/alpine/tags
+FROM alpine:3.16.2
 
-RUN apt-get update && apt-get install -y easy-rsa
-RUN chmod 755 /usr/share/easy-rsa/*
+MAINTAINER Vuong Le lelordoftech@gmail.com
+
+# easy-rsa
+RUN apk update \
+ && apk add --update-cache \
+    easy-rsa \
+ && rm -rf /var/cache/apk/*
+WORKDIR /opt
+
+# Needed by scripts
+ENV OPENVPN=/etc/openvpn
+ENV CA_SERVER=/etc/ca_server
+
+ADD assets/generate_ca_and_server_certs.sh $CA_SERVER/scripts/
+ADD assets/vars.template $CA_SERVER/scripts/
 ADD assets/start.sh /opt/start.sh
-ADD assets/generate_ca_and_server_certs.sh /opt/scripts/generate_ca_and_server_certs.sh
-ADD assets/vars.template /opt/scripts/
 
 ADD openvpn-web-ui.tar.gz /opt/openvpn-gui/
 RUN rm -f /opt/openvpn-gui/data.db
 ADD assets/app.conf /opt/openvpn-gui/conf/app.conf
+EXPOSE 8080/tcp
 
 CMD /opt/start.sh
