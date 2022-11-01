@@ -44,6 +44,4 @@ verb 3
 
 mute 10
 
-explicit-exit-notify 1
-
 management {{ .Management }}
