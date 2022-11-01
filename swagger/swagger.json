@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "OpenVPN API",
-        "description": "REST API allows you to control and monitor your OpenVPN server",
+        "description": "REST API allows you to control and monitor your OpenVPN server\n",
         "version": "1.0.0",
         "contact": {
             "email": "adam.walach@gmail.com"
@@ -15,7 +15,7 @@
                 "tags": [
                     "session"
                 ],
-                "description": "List vpn sessions",
+                "description": "List vpn sessions\n\u003cbr\u003e",
                 "operationId": "APISessionController.list",
                 "responses": {
                     "200": {
@@ -30,7 +30,7 @@
                 "tags": [
                     "session"
                 ],
-                "description": "Delete (kill) session",
+                "description": "Delete (kill) session\n\u003cbr\u003e",
                 "operationId": "APISessionController.Kill",
                 "parameters": [
                     {
@@ -58,7 +58,7 @@
                 "tags": [
                     "signal"
                 ],
-                "description": "Sends signal to OpenVPN daemon",
+                "description": "Sends signal to OpenVPN daemon\n\u003cbr\u003e",
                 "operationId": "APISignalController.Send signal",
                 "parameters": [
                     {
@@ -86,7 +86,7 @@
                 "tags": [
                     "sysload"
                 ],
-                "description": "Shows OS stats",
+                "description": "Shows OS stats\n\u003cbr\u003e",
                 "operationId": "APISysloadController.Get system info",
                 "responses": {
                     "200": {

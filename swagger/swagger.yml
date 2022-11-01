@@ -1,7 +1,8 @@
 swagger: "2.0"
 info:
   title: OpenVPN API
-  description: REST API allows you to control and monitor your OpenVPN server
+  description: |
+    REST API allows you to control and monitor your OpenVPN server
   version: 1.0.0
   contact:
     email: adam.walach@gmail.com
@@ -11,7 +12,9 @@ paths:
     get:
       tags:
       - session
-      description: List vpn sessions
+      description: |-
+        List vpn sessions
+        <br>
       operationId: APISessionController.list
       responses:
         "200":
@@ -21,7 +24,9 @@ paths:
     delete:
       tags:
       - session
-      description: Delete (kill) session
+      description: |-
+        Delete (kill) session
+        <br>
       operationId: APISessionController.Kill
       parameters:
       - in: body
@@ -39,7 +44,9 @@ paths:
     post:
       tags:
       - signal
-      description: Sends signal to OpenVPN daemon
+      description: |-
+        Sends signal to OpenVPN daemon
+        <br>
       operationId: APISignalController.Send signal
       parameters:
       - in: body
@@ -57,7 +64,9 @@ paths:
     get:
       tags:
       - sysload
-      description: Shows OS stats
+      description: |-
+        Shows OS stats
+        <br>
       operationId: APISysloadController.Get system info
       responses:
         "200":
