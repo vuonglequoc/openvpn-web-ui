@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"time"
 
@@ -43,15 +44,41 @@ func (c *CertificatesController) Download() {
 
 	zw := zip.NewWriter(c.Controller.Ctx.ResponseWriter)
 
-	keysPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/"
+	ovpnPath := models.GlobalCfg.OVConfigPath
+	keysPath := ovpnPath + "client-configs/keys/"
+	keysPathOvpn := ovpnPath + "client-configs/files/"
+
 	if cfgPath, err := saveClientConfig(name); err == nil {
 		addFileToZip(zw, cfgPath)
 	}
-	addFileToZip(zw, keysPath+"ca.crt")
+	addFileToZip(zw, ovpnPath+"pki/ca.crt")
 	addFileToZip(zw, keysPath+"client_"+name+".crt")
-	addFileToZip(zw, keysPath+"client_"+name+".key")
+	addFileToZip(zw, ovpnPath+"pki/private/client_"+name+".key")
+	addFileToZip(zw, ovpnPath+"pki/ta.key")
 
-	keysPathOvpn := models.GlobalCfg.OVConfigPath + "client-configs/files/"
+	// Make OVPN
+	cmd := exec.Command(
+		"/bin/sh",
+		"-c",
+		fmt.Sprintf(
+			"cat " + keysPath+"client_"+name+".conf " +
+			"<(echo -e '<ca>') " +
+			ovpnPath+"pki/ca.crt " +
+			"<(echo -e '</ca>\n<cert>') " +
+			keysPath+"client_"+name+".crt " +
+			"<(echo -e '</cert>\n<key>') " +
+			ovpnPath+"pki/private/client_"+name+".key " +
+			"<(echo -e '</key>\n<tls-auth>') " +
+			ovpnPath+"pki/ta.key " +
+			"<(echo -e '</tls-auth>') " +
+			"> "+keysPathOvpn+"client_"+name+".ovpn"))
+	cmd.Dir = ovpnPath + "client-configs"
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		beego.Debug(string(output))
+		beego.Error(err)
+	}
+
 	addFileToZip(zw, keysPathOvpn+"client_"+name+".ovpn")
 
 	if err := zw.Close(); err != nil {
