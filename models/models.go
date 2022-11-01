@@ -48,13 +48,13 @@ func initDB() {
 }
 
 func createDefaultUsers() {
-	hash, err := passlib.Hash("b3secure")
+	hash, err := passlib.Hash(os.Getenv("OPENVPN_ADMIN_PASSWORD"))
 	if err != nil {
 		beego.Error("Unable to hash password", err)
 	}
 	user := User{
 		Id:       1,
-		Login:    "admin",
+		Login:    os.Getenv("OPENVPN_ADMIN_USERNAME"),
 		Name:     "Administrator",
 		Email:    "root@localhost",
 		Password: hash,

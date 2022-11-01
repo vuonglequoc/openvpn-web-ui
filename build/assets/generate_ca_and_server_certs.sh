@@ -2,14 +2,16 @@
 
 EASY_RSA=/usr/share/easy-rsa
 
-SERVER_NAME="Server"
-SERVER_EMAIL="webmaster@example.com"
-SERVER_COUNTRY="US"
-SERVER_PROVINCE="New York"
-SERVER_CITY="New York City"
-SERVER_ORG="DigitalOcean"
-SERVER_OU="Community"
-SERVER_CN="Server"
+echo "Configuration ENV"
+
+echo $SERVER_NAME
+echo $SERVER_EMAIL
+echo $SERVER_COUNTRY
+echo $SERVER_PROVINCE
+echo $SERVER_CITY
+echo $SERVER_ORG
+echo $SERVER_OU
+echo $SERVER_CN
 
 
 echo "Generating CA cert"

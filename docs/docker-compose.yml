@@ -18,6 +18,17 @@ services:
   gui:
     image: vuonglequoc/openvpn-web-ui
     container_name: openvpn-gui
+    environment:
+      - OPENVPN_ADMIN_USERNAME=admin
+      - OPENVPN_ADMIN_PASSWORD=b3secure
+      - SERVER_NAME=Server
+      - SERVER_EMAIL=webmaster@example.com
+      - SERVER_COUNTRY=US
+      - SERVER_PROVINCE=New York
+      - SERVER_CITY=New York City
+      - SERVER_ORG=DigitalOcean
+      - SERVER_OU=Community
+      - SERVER_CN=Server
     ports:
       - "8080:8080/tcp"
     restart: always
