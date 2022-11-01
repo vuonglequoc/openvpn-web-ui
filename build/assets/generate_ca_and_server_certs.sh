@@ -2,7 +2,15 @@
 
 EASY_RSA=/usr/share/easy-rsa
 
-SERVER_NAME=Server
+SERVER_NAME="Server"
+SERVER_EMAIL="webmaster@example.com"
+SERVER_COUNTRY="US"
+SERVER_PROVINCE="New York"
+SERVER_CITY="New York City"
+SERVER_ORG="DigitalOcean"
+SERVER_OU="Community"
+SERVER_CN="Server"
+
 
 echo "Generating CA cert"
 
@@ -27,7 +35,10 @@ echo "set_var EASYRSA_DIGEST sha512 " >> $OPENVPN/vars
 $EASY_RSA/easyrsa init-pki
 
 # Creating an OpenVPN Server Certificate Request and Private Key
-echo -e "$SERVER_NAME" | $EASY_RSA/easyrsa gen-req $SERVER_NAME nopass
+# echo -e "$SERVER_NAME" | $EASY_RSA/easyrsa gen-req $SERVER_NAME nopass
+openssl genrsa -out $OPENVPN/pki/private/$SERVER_NAME.key 2048
+openssl req -new -key $OPENVPN/pki/private/$SERVER_NAME.key -out $OPENVPN/pki/reqs/$SERVER_NAME.req \
+    -subj /emailAddress="$SERVER_EMAIL"/C="$SERVER_COUNTRY"/ST="$SERVER_PROVINCE"/L="$SERVER_CITY"/O="$SERVER_ORG"/OU="$SERVER_OU"/CN="$SERVER_CN"
 # key: $OPENVPN/pki/private/SERVER_NAME.key
 # req: $OPENVPN/pki/reqs/SERVER_NAME.req
 
