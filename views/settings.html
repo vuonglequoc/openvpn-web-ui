@@ -39,9 +39,15 @@
       </div>
 
       <div class="form-group">
-        <label for="name">ConfigPath</label>
+        <label for="name">OpenVPN Config Path</label>
         <input type="text" class="form-control" id="OVConfigPath" name="OVConfigPath" placeholder="Enter config path"
           value="{{ .Settings.OVConfigPath }}">
+      </div>
+
+      <div class="form-group">
+        <label for="name">Certificate Authority (CA) Config Path</label>
+        <input type="text" class="form-control" id="CAConfigPath" name="CAConfigPath" placeholder="Enter config path"
+          value="{{ .Settings.CAConfigPath }}">
       </div>
 
       {{ .xsrfdata }}

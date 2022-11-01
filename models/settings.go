@@ -10,14 +10,17 @@ import (
 
 type Settings struct {
 	Id      int64
+
 	Profile string `orm:"size(64);unique" form:"Profile" valid:"Required;"`
 
 	MIAddress string `orm:"size(64);unique" form:"MIAddress" valid:"Required;"`
 	MINetwork string `orm:"size(64);unique" form:"MINetwork" valid:"Required;"`
 
+	ServerAddress string `orm:"size(64);unique" form:"ServerAddress" valid:"Required;"`
+
 	OVConfigPath string `orm:"size(64);unique" form:"OVConfigPath" valid:"Required;"`
 
-	ServerAddress string `orm:"size(64);unique" form:"ServerAddress" valid:"Required;"`
+	CAConfigPath string `orm:"size(64);unique" form:"CAConfigPath" valid:"Required;"`
 
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
