@@ -86,6 +86,23 @@ func parseDetails(d string) *Details {
 			}
 		}
 	}
+	
+	if (details.Name == "") && (details.CN != "") {
+		details.Name = details.CN;
+	}
+
+	if details.Country == "" {
+		details.Country = "unknown";
+	}
+
+	if details.Organisation == "" {
+		details.Organisation = "unknown";
+	}
+
+	if details.Email == "" {
+		details.Email = "unknown";
+	}
+
 	return details
 }
 
