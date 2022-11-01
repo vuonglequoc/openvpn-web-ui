@@ -19,7 +19,7 @@ cd $CA_SERVER
 $EASY_RSA/easyrsa init-pki
 
 # Prepare config params
-cp $CA_SERVER/scripts/vars.template $CA_SERVER/vars
+cp /opt/scripts/vars.template $CA_SERVER/vars
 
 # Creating a Certificate Authority
 $EASY_RSA/easyrsa --batch --req-cn=$SERVER_NAME build-ca nopass
