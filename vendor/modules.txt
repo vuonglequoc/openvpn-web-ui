@@ -68,7 +68,7 @@ github.com/shiena/ansicolor
 # github.com/sirupsen/logrus v1.4.2
 ## explicit
 github.com/sirupsen/logrus
-# github.com/vuonglequoc/go-openvpn v0.0.0-20221101023806-4dbeb927131b
+# github.com/vuonglequoc/go-openvpn v0.0.0-20221101115738-62d2f4d9cd93
 ## explicit
 github.com/vuonglequoc/go-openvpn/client/config
 github.com/vuonglequoc/go-openvpn/server/config
