@@ -114,6 +114,31 @@ func CreateCertificate(name string) error {
 	// source /etc/openvpn/keys/vars \
 	// 	&& export KEY_NAME=[name] \
 	// 	&& /usr/share/easy-rsa/build-key --batch [name]
+
+	// Easy-RSA 3
+	// init-pki
+	// build-ca [ cmd-opts ]
+	// gen-dh
+	// gen-req <filename_base> [ cmd-opts ]
+	// sign-req <type> <filename_base>
+	// build-client-full <filename_base> [ cmd-opts ]
+	// build-server-full <filename_base> [ cmd-opts ]
+	// revoke <filename_base> [cmd-opts]
+	// renew <filename_base> [cmd-opts]
+	// build-serverClient-full <filename_base> [ cmd-opts ]
+	// gen-crl
+	// update-db
+	// show-req <filename_base> [ cmd-opts ]
+	// show-cert <filename_base> [ cmd-opts ]
+	// show-ca [ cmd-opts ]
+	// import-req <request_file_path> <short_basename>
+	// export-p7 <filename_base> [ cmd-opts ]
+	// export-p8 <filename_base> [ cmd-opts ]
+	// export-p12 <filename_base> [ cmd-opts ]
+	// set-rsa-pass <filename_base> [ cmd-opts ]
+	// set-ec-pass <filename_base> [ cmd-opts ]
+	// upgrade <type>
+
 	rsaPath := "/usr/share/easy-rsa/"
 	varsPath := models.GlobalCfg.OVConfigPath + "keys/vars"
 	cmd := exec.Command("/bin/bash", "-c",
