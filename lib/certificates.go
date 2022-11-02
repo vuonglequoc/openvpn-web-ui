@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"os"
 	"fmt"
 	"io/ioutil"
 	"os/exec"
@@ -148,10 +149,11 @@ func CreateCertificate(name string) error {
 		"/bin/sh",
 		"-c",
 		fmt.Sprintf(
-			"openssl genrsa -out %s/pki/private/client_%s.key 2048" +
-			" && openssl req -new -key %s/pki/private/client_%s.key -out %s/pki/reqs/client_%s.req" +
+			"openssl genrsa -aes-256-cbc -passout pass:%s -out %s/pki/private/client_%s.key 2048" +
+			" && openssl req -new -passin pass:%s -key %s/pki/private/client_%s.key -out %s/pki/reqs/client_%s.req" +
 			" -subj /emailAddress=\"%s\"/C=\"%s\"/ST=\"%s\"/L=\"%s\"/O=\"%s\"/OU=\"%s\"/CN=\"%s\"",
-			ovpnPath, name, ovpnPath, name, ovpnPath, name,
+			os.Getenv("SERVER_NAME"), ovpnPath, name,
+			os.Getenv("SERVER_NAME"), ovpnPath, name, ovpnPath, name,
 			"webmaster@example.com", "US", "New York", "New York City", "DigitalOcean", "Community", name))
 	cmd.Dir = ovpnPath
 	output, err := cmd.CombinedOutput()

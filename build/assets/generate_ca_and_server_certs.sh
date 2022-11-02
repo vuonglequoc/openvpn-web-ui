@@ -36,10 +36,14 @@ echo "set_var EASYRSA_DIGEST sha512 " >> $OPENVPN/vars
 
 $EASY_RSA/easyrsa init-pki
 
+# Prepare passphase for Server Certificate
+echo $SERVER_NAME > /etc/openvpn/pki/passphrase.txt
+chmod 600 /etc/openvpn/pki/passphrase.txt
+
 # Creating an OpenVPN Server Certificate Request and Private Key
 # echo -e "$SERVER_NAME" | $EASY_RSA/easyrsa gen-req $SERVER_NAME nopass
-openssl genrsa -out $OPENVPN/pki/private/$SERVER_NAME.key 2048
-openssl req -new -key $OPENVPN/pki/private/$SERVER_NAME.key -out $OPENVPN/pki/reqs/$SERVER_NAME.req \
+openssl genrsa -aes-256-cbc -passout file:/etc/openvpn/pki/passphrase.txt -out $OPENVPN/pki/private/$SERVER_NAME.key 2048
+openssl req -new -passin file:/etc/openvpn/pki/passphrase.txt -key $OPENVPN/pki/private/$SERVER_NAME.key -out $OPENVPN/pki/reqs/$SERVER_NAME.req \
     -subj /emailAddress="$SERVER_EMAIL"/C="$SERVER_COUNTRY"/ST="$SERVER_PROVINCE"/L="$SERVER_CITY"/O="$SERVER_ORG"/OU="$SERVER_OU"/CN="$SERVER_CN"
 # key: $OPENVPN/pki/private/SERVER_NAME.key
 # req: $OPENVPN/pki/reqs/SERVER_NAME.req

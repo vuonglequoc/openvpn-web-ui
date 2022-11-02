@@ -107,7 +107,7 @@ func createDefaultOVConfig() {
 			IfconfigPoolPersist: "/etc/openvpn/log/ipp.txt",
 			Keepalive:           "10 120",
 			TaKey:               "/etc/openvpn/pki/ta.key",
-			Cipher:              "AES-256-GCM",
+			Cipher:              "AES-256-CBC",
 			Auth:                "SHA256",
 			MaxClients:          100,
 			Management:          "0.0.0.0 2080",

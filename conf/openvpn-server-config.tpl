@@ -20,13 +20,15 @@ push "dhcp-option DNS 8.8.4.4"
 
 keepalive {{ .Keepalive }}
 
-#tls-auth {{ .TaKey }} 0
-tls-crypt {{ .TaKey }}
+tls-auth {{ .TaKey }} 0
+#tls-crypt {{ .TaKey }}
 
 key-direction 0
 
 cipher {{ .Cipher }}
 auth {{ .Auth }}
+
+askpass /etc/openvpn/pki/passphrase.txt
 
 #comp-lzo
 
