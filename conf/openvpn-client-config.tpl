@@ -16,20 +16,25 @@ group nobody
 persist-key
 persist-tun
 
-ca {{ .Ca }}
-cert {{ .Cert }}
-key {{ .Key }}
+#ca {{ .Ca }}
+#cert {{ .Cert }}
+#key {{ .Key }}
 
 remote-cert-tls server
 
 #tls-auth {{ .TaKey }} 1
 
+key-direction 1
+
 cipher {{ .Cipher }}
 auth {{ .Auth }}
 
-comp-lzo
+#comp-lzo
 
 verb 3
 
-#tls-client
-#lport 0
+; script-security 2
+; up /etc/openvpn/update-systemd-resolved
+; down /etc/openvpn/update-systemd-resolved
+; down-pre
+; dhcp-option DOMAIN-ROUTE .
