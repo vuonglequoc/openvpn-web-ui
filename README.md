@@ -51,27 +51,54 @@ It starts two docker containers. One with OpenVPN server and second with OpenVPN
     .
     ├── docker-compose.yml
     └── openvpn-data
-        ├── conf
-        │   ├── dh2048.pem
-        │   ├── ipp.txt
-        │   ├── keys
-        │   │   ├── 01.pem
-        │   │   ├── ca.crt
-        │   │   ├── ca.key
-        │   │   ├── index.txt
-        │   │   ├── index.txt.attr
-        │   │   ├── index.txt.old
-        │   │   ├── serial
-        │   │   ├── serial.old
-        │   │   ├── server.crt
-        │   │   ├── server.csr
-        │   │   ├── server.key
-        │   │   └── vars
-        │   ├── openvpn.log
-        │   └── server.conf
+        ├── openvpn
+        │   ├── client-configs
+        │   │   ├── files
+        │   │   │   └── client_*.ovpn
+        │   │   └── keys
+        │   │       └── client_*.crt
+        │   │── pki
+        │   │   ├── private
+        │   │   │   ├── client_*.key
+        │   │   │   └── server.key
+        │   │   ├── reqs
+        │   │   │   ├── client_*.req
+        │   │   │   └── server.req
+        │   │   ├── dh2048.pem
+        │   │   ├── ca.crt
+        │   │   ├── server.crt
+        │   │   ├── ta.key
+        │   │   ├── openssl-easyrsa.cnf
+        │   │   └── safessl-easyrsa.cnf
+        │   ├── log
+        │   │   ├── ipp.txt
+        │   │   ├── openvpn.log
+        │   │   └── openvpn-status.log
+        │   ├── server.conf
+        │   └── vars
+        ├── ca_server
+        │   ├── pki
+        │   │   ├── certs_by_serial
+        │   │   │   └── *.pem
+        │   │   ├── issued
+        │   │   │   ├── client_*.crt
+        │   │   │   └── server.crt
+        │   │   ├── private
+        │   │   │   └── ca.key
+        │   │   ├── reqs
+        │   │   │   ├── client_*.req
+        │   │   │   └── server.req
+        │   │   ├── ca.crt
+        │   │   ├── index.txt
+        │   │   ├── index.txt.attr
+        │   │   ├── index.txt.attr.old
+        │   │   ├── index.txt.old
+        │   │   ├── index_ok.txt
+        │   │   ├── serial
+        │   │   └── serial.old
+        │   └── vars
         └── db
             └── data.db
-
 
 
 ### Dev
@@ -99,11 +126,11 @@ In order to enable management api for OpenVPN daemon, we need to add below confi
 
 In the `Settings` of OpenVPNAdmin, update `Management interface address` with IP of OpenVPN daemon and same port as above (2080).
 
-OpenVPNAdmin will read OpenVPN daemon log from `/etc/openvpn/openvpn.log`.
+OpenVPNAdmin will read OpenVPN daemon log from `/etc/openvpn/log/openvpn.log`.
 
 In order to enable this log for OpenVPN daemon, we need to add below config to the config file `server.conf`:
 
-`log-append /etc/openvpn/openvpn.log`
+`log-append /etc/openvpn/log/openvpn.log`
 
 ## Todo
 
