@@ -34,7 +34,7 @@ func (c *CertificatesController) NestPrepare() {
 	}
 }
 
-// @router /certificates/:key [get]
+// @router /certificates/download/:key [get]
 func (c *CertificatesController) Download() {
 	name := c.GetString(":key")
 	filename := fmt.Sprintf("%s.zip", name)
