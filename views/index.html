@@ -147,7 +147,7 @@
       <div class="box-body">
         {{ if not .ovstatus }}
           Fix your configuration
-        {{ else if eq (len .ovstatus) 0 }}
+        {{ else if eq (len .ovstatus.ClientList) 0 }}
           No connection
         {{ else }}
         <div class="table-responsive">
