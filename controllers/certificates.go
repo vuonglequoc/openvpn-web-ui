@@ -43,7 +43,13 @@ func (c *CertificatesController) showCerts() {
 		beego.Error(err)
 	}
 	lib.Dump(certs)
-	c.Data["certificates"] = &certs
+
+	// The first Certs maybe belong to the VPN Server with CN name not server
+	if certs[0].Details.CommonName == os.Getenv("SERVER_NAME") {
+		c.Data["certificates"] = certs[1:]
+	} else {
+		c.Data["certificates"] = &certs
+	}
 }
 
 // @router /certificates [post]
