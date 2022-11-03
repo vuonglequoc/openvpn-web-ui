@@ -33,6 +33,8 @@ auth {{ .Auth }}
 
 verb 3
 
+{{ .ExtraClientOptions }}
+
 ; script-security 2
 ; up /etc/openvpn/update-systemd-resolved
 ; down /etc/openvpn/update-systemd-resolved

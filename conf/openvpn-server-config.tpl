@@ -17,8 +17,8 @@ push "route {{ .Server }}"
 
 push "redirect-gateway def1 bypass-dhcp"
 
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
+push "dhcp-option DNS {{ .DNSServerOne }}"
+push "dhcp-option DNS {{ .DNSServerTwo }}"
 
 keepalive {{ .Keepalive }}
 
@@ -51,3 +51,5 @@ verb 3
 mute 10
 
 management {{ .Management }}
+
+{{ .ExtraServerOptions }}

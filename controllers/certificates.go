@@ -167,6 +167,8 @@ func saveClientConfig(name string) (string, error) {
 	cfg.Cipher = serverConfig.Cipher
 	cfg.Auth = serverConfig.Auth
 
+	cfg.ExtraClientOptions = serverConfig.ExtraClientOptions
+
 	destPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/client_" + name + ".conf"
 	if err := config.SaveToFile("conf/openvpn-client-config.tpl",
 		cfg, destPath); err != nil {

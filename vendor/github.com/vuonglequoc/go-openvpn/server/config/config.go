@@ -15,12 +15,16 @@ var defaultConfig = Config{
 	Dh:                  "dh2048.pem",
 	Server:              "10.8.0.0 255.255.255.0",
 	IfconfigPoolPersist: "ipp.txt",
+	DNSServerOne:        "8.8.8.8",
+	DNSServerTwo:        "8.8.4.4",
 	Keepalive:           "10 120",
 	TaKey:               "ta.key",
 	Cipher:              "AES-256-CBC",
 	Auth:                "SHA256",
 	MaxClients:          100,
 	Management:          "0.0.0.0 2080",
+	ExtraServerOptions:  "",
+	ExtraClientOptions:  "",
 }
 
 //Config model
@@ -38,6 +42,9 @@ type Config struct {
 
 	IfconfigPoolPersist string
 
+	DNSServerOne string
+	DNSServerTwo string
+
 	Keepalive string
 
 	TaKey string
@@ -48,6 +55,9 @@ type Config struct {
 	MaxClients int
 
 	Management string
+
+	ExtraServerOptions string
+	ExtraClientOptions string
 }
 
 //New returns config object with default values

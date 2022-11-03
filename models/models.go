@@ -105,12 +105,16 @@ func createDefaultOVConfig() {
 			Dh:                  "/etc/openvpn/pki/dh2048.pem",
 			Server:              "10.8.0.0 255.255.255.0",
 			IfconfigPoolPersist: "/etc/openvpn/log/ipp.txt",
+			DNSServerOne:        "8.8.8.8",
+			DNSServerTwo:        "8.8.4.4",
 			Keepalive:           "10 120",
 			TaKey:               "/etc/openvpn/pki/ta.key",
 			Cipher:              "AES-256-CBC",
 			Auth:                "SHA256",
 			MaxClients:          100,
 			Management:          "0.0.0.0 2080",
+			ExtraServerOptions:  "",
+			ExtraClientOptions:  "",
 		},
 	}
 	o := orm.NewOrm()

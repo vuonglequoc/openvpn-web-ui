@@ -82,6 +82,20 @@
       </div>
 
       <div class="form-group">
+        <label for="name">DNSServerOne</label>
+        <input type="text" class="form-control" name="DNSServerOne" id="DNSServerOne" placeholder="Enter the first DNS server"
+          value="{{ .Settings.DNSServerOne }}">
+        <span id="helpBlock" class="help-block">Enter the first DNS server</span>
+      </div>
+
+      <div class="form-group">
+        <label for="name">DNSServerTwo</label>
+        <input type="text" class="form-control" name="DNSServerTwo" id="DNSServerTwo" placeholder="Enter the second DNS server"
+          value="{{ .Settings.DNSServerTwo }}">
+        <span id="helpBlock" class="help-block">Enter the second DNS server</span>
+      </div>
+
+      <div class="form-group">
         <label for="name">Keepalive</label>
         <input type="text" class="form-control" name="Keepalive" id="Keepalive" placeholder=""
           value="{{ .Settings.Keepalive }}">
@@ -128,6 +142,20 @@
         <input type="text" class="form-control" name="Management" id="Management" placeholder=""
           value="{{ .Settings.Management }}">
         <span id="helpBlock" class="help-block"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="name">ExtraServerOptions</label>
+        <textarea type="text" class="form-control" name="ExtraServerOptions" 
+          id="ExtraServerOptions">{{ .Settings.ExtraServerOptions }}</textarea>
+        <span id="helpBlock" class="help-block">Extra server options to add to the config.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="name">ExtraClientOptions</label>
+        <textarea type="text" class="form-control" name="ExtraClientOptions" 
+          id="ExtraClientOptions">{{ .Settings.ExtraClientOptions }}</textarea>
+        <span id="helpBlock" class="help-block">Extra client options to add to the generated client configs.</span>
       </div>
 
       {{ .xsrfdata }}

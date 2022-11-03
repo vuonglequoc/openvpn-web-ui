@@ -16,6 +16,7 @@ var defaultConfig = Config{
 	TaKey:         "ta.key",
 	Cipher:        "AES-256-CBC",
 	Auth:          "SHA256",
+	ExtraClientOptions: "",
 }
 
 //Config model
@@ -31,6 +32,8 @@ type Config struct {
 
 	Cipher string
 	Auth string
+
+	ExtraClientOptions string
 }
 
 //New returns config object with default values
