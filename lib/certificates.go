@@ -221,3 +221,22 @@ func RevokeCertificate(name string) error {
 
 	return nil
 }
+
+func RenewCertificate(name string) error {
+	rsaPath := "/usr/share/easy-rsa/"
+
+	cmd := exec.Command(
+		"/bin/sh",
+		"-c",
+		fmt.Sprintf(
+			"echo -e \"yes\" | %s/easyrsa renew client_%s", rsaPath, name))
+	cmd.Dir = models.GlobalCfg.CAConfigPath
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		beego.Debug(string(output))
+		beego.Error(err)
+		return err
+	}
+
+	return nil
+}

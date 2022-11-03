@@ -161,6 +161,14 @@ func (c *CertificatesController) Revoke() {
 	return
 }
 
+// @router /certificates/renew/:key [get]
+func (c *CertificatesController) Renew() {
+	name := c.GetString(":key")
+	lib.RenewCertificate(name)
+	c.Redirect(c.URLFor("CertificatesController.Get"), 302)
+	return
+}
+
 func validateCertParams(cert NewCertParams) map[string]map[string]string {
 	valid := validation.Validation{}
 	b, err := valid.Valid(&cert)
