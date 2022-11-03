@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	mi "github.com/vuonglequoc/go-openvpn/server/mi"
 	"github.com/vuonglequoc/openvpn-web-ui/models"
 	"github.com/beego/beego"
 )
@@ -247,17 +248,45 @@ func RevokeCertificate(name string) error {
 	// 	&& /usr/share/easy-rsa/revoke-key [name]
 
 	rsaPath := "/usr/share/easy-rsa/"
+	ovpnPath := models.GlobalCfg.OVConfigPath
+	caPath := models.GlobalCfg.CAConfigPath
 
+	// Revoke and gen crl.pem file
 	cmd := exec.Command(
 		"/bin/sh",
 		"-c",
 		fmt.Sprintf(
-			"echo -e \"yes\" | %s/easyrsa revoke client_%s", rsaPath, name))
-	cmd.Dir = models.GlobalCfg.CAConfigPath
+			"echo -e \"yes\" | %s/easyrsa revoke client_%s" +
+			" && %s/easyrsa gen-crl",
+			rsaPath, name, rsaPath))
+	cmd.Dir = caPath
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		beego.Debug(string(output))
 		beego.Error(err)
+		return err
+	}
+
+	// Copy crl.pem file to OpenVPN folder
+	cmd = exec.Command(
+		"/bin/sh",
+		"-c",
+		fmt.Sprintf(
+			"cp %s/pki/crl.pem %s/pki/crl.pem" +
+			" && chmod 644 %s/pki/crl.pem",
+			caPath, ovpnPath, ovpnPath))
+	cmd.Dir = caPath
+	output, err = cmd.CombinedOutput()
+	if err != nil {
+		beego.Debug(string(output))
+		beego.Error(err)
+		return err
+	}
+
+	// Restart OpenVPN
+	client := mi.NewClient(models.GlobalCfg.MINetwork, models.GlobalCfg.MIAddress)
+	if err := client.Signal("SIGTERM"); err != nil {
+		beego.Warning("Config has been updated but OpenVPN server was NOT reloaded: " + err.Error())
 		return err
 	}
 
