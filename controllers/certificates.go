@@ -16,10 +16,6 @@ import (
 	"github.com/beego/beego/validation"
 )
 
-type NewCertParams struct {
-	Name string `form:"Name" valid:"Required;"`
-}
-
 type CertificatesController struct {
 	BaseController
 }
@@ -55,7 +51,7 @@ func (c *CertificatesController) Post() {
 	c.TplName = "certificates.html"
 	flash := beego.NewFlash()
 
-	cParams := NewCertParams{}
+	cParams := lib.NewCertParams{}
 	if err := c.ParseForm(&cParams); err != nil {
 		beego.Error(err)
 		flash.Error(err.Error())
@@ -64,17 +60,18 @@ func (c *CertificatesController) Post() {
 		if vMap := validateCertParams(cParams); vMap != nil {
 			c.Data["validation"] = vMap
 		} else {
-			if err := lib.CreateCertificate(cParams.Name); err != nil {
+			if err := lib.CreateCertificate(cParams); err != nil {
 				beego.Error(err)
 				flash.Error(err.Error())
 				flash.Store(&c.Controller)
 			}
 		}
 	}
+
 	c.showCerts()
 }
 
-func validateCertParams(cert NewCertParams) map[string]map[string]string {
+func validateCertParams(cert lib.NewCertParams) map[string]map[string]string {
 	valid := validation.Validation{}
 	b, err := valid.Valid(&cert)
 	if err != nil {

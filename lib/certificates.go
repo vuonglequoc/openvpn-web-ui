@@ -1,7 +1,6 @@
 package lib
 
 import (
-	"os"
 	"fmt"
 	"io/ioutil"
 	"os/exec"
@@ -26,11 +25,25 @@ type Cert struct {
 }
 
 type Details struct {
-	Name         string
-	CN           string
-	Country      string
+	Name string
+	Email string
+	Country string
+	Province string
+	City string
 	Organisation string
-	Email        string
+	OrganisationUnit string
+	CommonName string
+}
+
+type NewCertParams struct {
+	Name string `form:"Name" valid:"Required;"`
+	Password string `form:"Password" valid:"Required;"`
+	Email string `form:"Email" valid:"Required;"`
+	Country string `form:"Country" valid:"Required;"`
+	Province string `form:"Province" valid:"Required;"`
+	City string `form:"City" valid:"Required;"`
+	Organisation string `form:"Organisation" valid:"Required;"`
+	OrganisationUnit string `form:"OrganisationUnit" valid:"Required;"`
 }
 
 func ReadCerts(path string) ([]*Cert, error) {
@@ -74,34 +87,52 @@ func parseDetails(d string) *Details {
 			switch fields[0] {
 			case "name":
 				details.Name = fields[1]
-			case "CN":
-				details.CN = fields[1]
-			case "C":
-				details.Country = fields[1]
-			case "O":
-				details.Organisation = fields[1]
 			case "emailAddress":
 				details.Email = fields[1]
+			case "C":
+				details.Country = fields[1]
+			case "ST":
+				details.Province = fields[1]
+			case "L":
+				details.City = fields[1]
+			case "O":
+				details.Organisation = fields[1]
+			case "OU":
+				details.OrganisationUnit = fields[1]
+			case "CN":
+				details.CommonName = fields[1]
 			default:
 				beego.Warn(fmt.Sprintf("Undefined entry: %s", line))
 			}
 		}
 	}
-	
-	if (details.Name == "") && (details.CN != "") {
-		details.Name = details.CN;
+
+	if (details.Name == "") && (details.CommonName != "") {
+		details.Name = details.CommonName;
+	}
+
+	if details.Email == "" {
+		details.Email = "unknown";
 	}
 
 	if details.Country == "" {
 		details.Country = "unknown";
 	}
 
+	if details.Province == "" {
+		details.Province = "unknown";
+	}
+
+	if details.City == "" {
+		details.City = "unknown";
+	}
+
 	if details.Organisation == "" {
 		details.Organisation = "unknown";
 	}
 
-	if details.Email == "" {
-		details.Email = "unknown";
+	if details.OrganisationUnit == "" {
+		details.OrganisationUnit = "unknown";
 	}
 
 	return details
@@ -135,11 +166,20 @@ func trim(s string) string {
 // set-ec-pass <filename_base> [ cmd-opts ]
 // upgrade <type>
 
-func CreateCertificate(name string) error {
+func CreateCertificate(cert NewCertParams) error {
 	// Old
 	// source /etc/openvpn/keys/vars \
 	// 	&& export KEY_NAME=[name] \
 	// 	&& /usr/share/easy-rsa/build-key --batch [name]
+
+	name := cert.Name;
+	password := cert.Password;
+	email := cert.Email;
+	country := cert.Country;
+	province := cert.Province;
+	city := cert.City;
+	org := cert.Organisation;
+	ou := cert.OrganisationUnit;
 
 	rsaPath := "/usr/share/easy-rsa/"
 	ovpnPath := models.GlobalCfg.OVConfigPath
@@ -153,9 +193,9 @@ func CreateCertificate(name string) error {
 			"openssl genrsa -aes-256-cbc -passout pass:%s -out %s/pki/private/client_%s.key 2048" +
 			" && openssl req -new -passin pass:%s -key %s/pki/private/client_%s.key -out %s/pki/reqs/client_%s.req" +
 			" -subj /emailAddress=\"%s\"/C=\"%s\"/ST=\"%s\"/L=\"%s\"/O=\"%s\"/OU=\"%s\"/CN=\"%s\"",
-			os.Getenv("SERVER_NAME"), ovpnPath, name,
-			os.Getenv("SERVER_NAME"), ovpnPath, name, ovpnPath, name,
-			"webmaster@example.com", "US", "New York", "New York City", "DigitalOcean", "Community", name))
+			password, ovpnPath, name,
+			password, ovpnPath, name, ovpnPath, name,
+			email, country, province, city, org, ou, name))
 	cmd.Dir = ovpnPath
 	output, err := cmd.CombinedOutput()
 	if err != nil {

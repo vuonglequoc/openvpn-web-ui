@@ -52,11 +52,16 @@
                 <td></td>
                 {{end}}
                 <td>
+                  <span class="label label-warning">Email: {{ .Details.Email }}</span>
+                  </br>
+                  <span class="label label-warning">CN: {{ .Details.CommonName }}</span>
                   <span class="label label-warning">Country: {{ .Details.Country }}</span>
-                  <span class="label label-warning">CN: {{ .Details.CN }}</span>
+                  </br>
+                  <span class="label label-warning">Province: {{ .Details.Province }}</span>
+                  <span class="label label-warning">City: {{ .Details.City }}</span>
                   </br>
                   <span class="label label-warning">Org: {{ .Details.Organisation }}</span>
-                  <span class="label label-warning">Email: {{ .Details.Email }}</span>
+                  <span class="label label-warning">Org Unit: {{ .Details.OrganisationUnit }}</span>
                 </td>
                 <td class="align-middle">
                   <div class="btn-group btn-group-sm">
@@ -109,10 +114,52 @@
   <form role="form" action="{{urlfor "CertificatesController.Post"}}" method="post">
     <div class="box-body">
       <div class="form-group {{if field_error_exist .validation "Name" }}has-error{{end}}" >
-        <label for="name">Name</label>
+        <label for="name">Common Name</label>
         <input type="text" class="form-control" id="Name" name="Name">
       </div>
       <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Name" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "Password" }}has-error{{end}}" >
+        <label for="password">Password</label>
+        <input type="text" class="form-control" id="Password" name="Password">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Password" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "Email" }}has-error{{end}}" >
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="Email" name="Email" value="webmaster@example.com">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Email" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "Country" }}has-error{{end}}" >
+        <label for="country">Country Name (2 letter code)</label>
+        <input type="text" class="form-control" id="Country" name="Country" value="US">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Country" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "Province" }}has-error{{end}}" >
+        <label for="province">State or Province Name (full name)</label>
+        <input type="text" class="form-control" id="Province" name="Province" value="New York">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Province" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "City" }}has-error{{end}}" >
+        <label for="city">Locality Name (eg, city)</label>
+        <input type="text" class="form-control" id="City" name="City" value="New York City">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "City" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "Organisation" }}has-error{{end}}" >
+        <label for="org">Organisation Name</label>
+        <input type="text" class="form-control" id="Organisation" name="Organisation" value="DigitalOcean">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Organisation" }}</span>
+
+      <div class="form-group {{if field_error_exist .validation "OrganisationUnit" }}has-error{{end}}" >
+        <label for="orgUnit">Organisation Unit Name</label>
+        <input type="text" class="form-control" id="OrganisationUnit" name="OrganisationUnit" value="Community">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "OrganisationUnit" }}</span>
     </div>
     <!-- /.box-body -->
 
