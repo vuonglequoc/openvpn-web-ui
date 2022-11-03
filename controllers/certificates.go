@@ -34,6 +34,100 @@ func (c *CertificatesController) NestPrepare() {
 	}
 }
 
+// @router /certificates [get]
+func (c *CertificatesController) Get() {
+	c.TplName = "certificates.html"
+	c.showCerts()
+}
+
+func (c *CertificatesController) showCerts() {
+	path := models.GlobalCfg.CAConfigPath + "pki/index.txt"
+	certs, err := lib.ReadCerts(path)
+	if err != nil {
+		beego.Error(err)
+	}
+	lib.Dump(certs)
+	c.Data["certificates"] = &certs
+}
+
+// @router /certificates [post]
+func (c *CertificatesController) Post() {
+	c.TplName = "certificates.html"
+	flash := beego.NewFlash()
+
+	cParams := NewCertParams{}
+	if err := c.ParseForm(&cParams); err != nil {
+		beego.Error(err)
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+	} else {
+		if vMap := validateCertParams(cParams); vMap != nil {
+			c.Data["validation"] = vMap
+		} else {
+			if err := lib.CreateCertificate(cParams.Name); err != nil {
+				beego.Error(err)
+				flash.Error(err.Error())
+				flash.Store(&c.Controller)
+			}
+		}
+	}
+	c.showCerts()
+}
+
+func validateCertParams(cert NewCertParams) map[string]map[string]string {
+	valid := validation.Validation{}
+	b, err := valid.Valid(&cert)
+	if err != nil {
+		beego.Error(err)
+		return nil
+	}
+	if !b {
+		return lib.CreateValidationMap(valid)
+	}
+	return nil
+}
+
+func saveClientConfig(name string) (string, error) {
+	cfg := config.New()
+	serverConfig := models.OVConfig{Profile: "default"}
+	serverConfig.Read("Profile")
+
+	cfg.Proto = serverConfig.Proto
+	cfg.ServerAddress = models.GlobalCfg.ServerAddress
+	cfg.Port = serverConfig.Port
+
+	cfg.Cert = "client_" + name + ".crt"
+	cfg.Key = "client_" + name + ".key"
+
+	cfg.Cipher = serverConfig.Cipher
+	cfg.Auth = serverConfig.Auth
+
+	destPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/client_" + name + ".conf"
+	if err := config.SaveToFile("conf/openvpn-client-config.tpl",
+		cfg, destPath); err != nil {
+		beego.Error(err)
+		return "", err
+	}
+
+	return destPath, nil
+}
+
+// @router /certificates/revoke/:key [get]
+func (c *CertificatesController) Revoke() {
+	name := c.GetString(":key")
+	lib.RevokeCertificate(name)
+	c.Redirect(c.URLFor("CertificatesController.Get"), 302)
+	return
+}
+
+// @router /certificates/renew/:key [get]
+func (c *CertificatesController) Renew() {
+	name := c.GetString(":key")
+	lib.RenewCertificate(name)
+	c.Redirect(c.URLFor("CertificatesController.Get"), 302)
+	return
+}
+
 // @router /certificates/download/:key [get]
 func (c *CertificatesController) Download() {
 	name := c.GetString(":key")
@@ -111,98 +205,4 @@ func addFileToZip(zw *zip.Writer, path string) error {
 	}
 
 	return fi.Close()
-}
-
-// @router /certificates [get]
-func (c *CertificatesController) Get() {
-	c.TplName = "certificates.html"
-	c.showCerts()
-}
-
-func (c *CertificatesController) showCerts() {
-	path := models.GlobalCfg.CAConfigPath + "pki/index.txt"
-	certs, err := lib.ReadCerts(path)
-	if err != nil {
-		beego.Error(err)
-	}
-	lib.Dump(certs)
-	c.Data["certificates"] = &certs
-}
-
-// @router /certificates [post]
-func (c *CertificatesController) Post() {
-	c.TplName = "certificates.html"
-	flash := beego.NewFlash()
-
-	cParams := NewCertParams{}
-	if err := c.ParseForm(&cParams); err != nil {
-		beego.Error(err)
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-	} else {
-		if vMap := validateCertParams(cParams); vMap != nil {
-			c.Data["validation"] = vMap
-		} else {
-			if err := lib.CreateCertificate(cParams.Name); err != nil {
-				beego.Error(err)
-				flash.Error(err.Error())
-				flash.Store(&c.Controller)
-			}
-		}
-	}
-	c.showCerts()
-}
-
-// @router /certificates/revoke/:key [get]
-func (c *CertificatesController) Revoke() {
-	name := c.GetString(":key")
-	lib.RevokeCertificate(name)
-	c.Redirect(c.URLFor("CertificatesController.Get"), 302)
-	return
-}
-
-// @router /certificates/renew/:key [get]
-func (c *CertificatesController) Renew() {
-	name := c.GetString(":key")
-	lib.RenewCertificate(name)
-	c.Redirect(c.URLFor("CertificatesController.Get"), 302)
-	return
-}
-
-func validateCertParams(cert NewCertParams) map[string]map[string]string {
-	valid := validation.Validation{}
-	b, err := valid.Valid(&cert)
-	if err != nil {
-		beego.Error(err)
-		return nil
-	}
-	if !b {
-		return lib.CreateValidationMap(valid)
-	}
-	return nil
-}
-
-func saveClientConfig(name string) (string, error) {
-	cfg := config.New()
-	serverConfig := models.OVConfig{Profile: "default"}
-	serverConfig.Read("Profile")
-
-	cfg.Proto = serverConfig.Proto
-	cfg.ServerAddress = models.GlobalCfg.ServerAddress
-	cfg.Port = serverConfig.Port
-
-	cfg.Cert = "client_" + name + ".crt"
-	cfg.Key = "client_" + name + ".key"
-
-	cfg.Cipher = serverConfig.Cipher
-	cfg.Auth = serverConfig.Auth
-
-	destPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/client_" + name + ".conf"
-	if err := config.SaveToFile("conf/openvpn-client-config.tpl",
-		cfg, destPath); err != nil {
-		beego.Error(err)
-		return "", err
-	}
-
-	return destPath, nil
 }
