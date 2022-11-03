@@ -129,6 +129,12 @@
       </div>
       <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "Password" }}</span>
 
+      <div class="form-group {{if field_error_exist .validation "ExpiredDays" }}has-error{{end}}" >
+        <label for="expiredDays">ExpiredDays</label>
+        <input type="number" class="form-control" id="ExpiredDays" name="ExpiredDays" min="1" value="365">
+      </div>
+      <span class="help-block"> {{template "common/fvalid.html" field_error_message .validation "ExpiredDays" }}</span>
+
       <div class="form-group {{if field_error_exist .validation "Email" }}has-error{{end}}" >
         <label for="email">Email</label>
         <input type="text" class="form-control" id="Email" name="Email" value="webmaster@example.com">

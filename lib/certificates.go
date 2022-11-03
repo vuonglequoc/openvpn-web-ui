@@ -38,6 +38,7 @@ type Details struct {
 type NewCertParams struct {
 	Name string `form:"Name" valid:"Required;"`
 	Password string `form:"Password" valid:"Required;"`
+	ExpiredDays int `form:"ExpiredDays" valid:"Required;"`
 	Email string `form:"Email" valid:"Required;"`
 	Country string `form:"Country" valid:"Required;"`
 	Province string `form:"Province" valid:"Required;"`
@@ -174,6 +175,7 @@ func CreateCertificate(cert NewCertParams) error {
 
 	name := cert.Name;
 	password := cert.Password;
+	expiredDays := cert.ExpiredDays;
 	email := cert.Email;
 	country := cert.Country;
 	province := cert.Province;
@@ -210,8 +212,8 @@ func CreateCertificate(cert NewCertParams) error {
 		"-c",
 		fmt.Sprintf(
 			"%s/easyrsa import-req %s/pki/reqs/client_%s.req client_%s" +
-			" && echo -e \"yes\" | %s/easyrsa sign-req client client_%s",
-			rsaPath, ovpnPath, name, name, rsaPath, name))
+			" && echo -e \"yes\" | %s/easyrsa --days=%d sign-req client client_%s",
+			rsaPath, ovpnPath, name, name, rsaPath, expiredDays, name))
 	cmd.Dir = caPath
 	output, err = cmd.CombinedOutput()
 	if err != nil {
