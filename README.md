@@ -116,6 +116,8 @@ Execute commands:
 
 ## Important Note
 
+### Management interface
+
 OpenVPNAdmin will manage OpenVPN daemon via management api.
 
 https://openvpn.net/community-resources/how-to/
@@ -126,11 +128,34 @@ In order to enable management api for OpenVPN daemon, we need to add below confi
 
 In the `Settings` of OpenVPNAdmin, update `Management interface address` with IP of OpenVPN daemon and same port as above (2080).
 
+### Logging
+
 OpenVPNAdmin will read OpenVPN daemon log from `/etc/openvpn/log/openvpn.log`.
 
 In order to enable this log for OpenVPN daemon, we need to add below config to the config file `server.conf`:
 
 `log-append /etc/openvpn/log/openvpn.log`
+
+### SSL
+
+Added SSL Support by adding HTTPS config in `app.conf`
+
+```
+appname = openvpn-web-ui
+httpport = 8080
+runmode = dev
+EnableGzip = true
+EnableAdmin = true
+sessionon = true
+CopyRequestBody = true
+
+HTTPSCertFile = /opt/certs/vpn.example.com/cert.pem
+HTTPSKeyFile = /opt/certs/vpn.example.com/privkey.pem
+HTTPSPort = 443
+EnableHTTPS = true
+
+DbPath = "./data.db"
+```
 
 ## Todo
 
