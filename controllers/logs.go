@@ -53,6 +53,26 @@ func (c *LogsController) Get() {
 		start = 0
 	}
 	c.Data["logs"] = reverse(logs[start:])
+
+	fName = settings.OVConfigPath + "log/openvpn-status.log"
+	file, err = os.Open(fName)
+	if err != nil {
+		beego.Error(err)
+	}
+	defer file.Close()
+	scanner = bufio.NewScanner(file)
+	var status_logs []string
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.Index(line, " MANAGEMENT: ") == -1 {
+			status_logs = append(status_logs, strings.Trim(line, "\t"))
+		}
+	}
+	start = len(status_logs) - 200
+	if start < 0 {
+		start = 0
+	}
+	c.Data["status_logs"] = reverse(status_logs[start:])
 }
 
 func reverse(lines []string) []string {
