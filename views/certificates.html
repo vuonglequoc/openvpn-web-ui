@@ -26,11 +26,11 @@
             <thead>
             <tr>
               <th>Name</th>
-              <th>Serial</th>
               <th>State</th>
               <th>Expiration</th>
               <th>Revocation</th>
               <th>Details</th>
+              <th>Serial</th>
               <th>Actions</th>
               <th></th>
             </tr>
@@ -41,7 +41,6 @@
               {{ if ne .Details.Name "server"}}
               <tr>
                 <td>{{ .Details.Name }}</td>
-                <td>{{ .Serial }}</td>
                 {{ if eq .EntryType "R" }}
                 <td class="align-middle"><span class="label label-danger">Revoked</span></td>
                 {{ else if eq .EntryType "E" }}
@@ -67,17 +66,18 @@
                   <span class="label label-warning">Org: {{ .Details.Organisation }}</span>
                   <span class="label label-warning">Org Unit: {{ .Details.OrganisationUnit }}</span>
                 </td>
+                <td>{{ .Serial }}</td>
                 <td class="align-middle">
-                  <div class="btn-group btn-group-sm">
+                  <div class="btn-group-vertical">
                     {{ if eq .EntryType "V" }}
-                    <a href="{{urlfor "CertificatesController.Revoke" ":key" .Details.Name}}" class="btn btn-danger"><i class="fas fa-ban"></i></a>
+                    <a class="btn btn-danger" href="{{urlfor "CertificatesController.Revoke" ":key" .Details.Name}}"><i class="fas fa-ban"></i></a>
                     {{else}}
                     <a class="btn btn-danger" disabled><i class="fas fa-ban"></i></a>
                     {{ end }}
                     {{ if eq .EntryType "E" }}
-                    <a href="{{urlfor "CertificatesController.Renew" ":key" .Details.Name}}" class="btn btn-primary"><i class="fas fa-recycle"></i></a>
+                    <a class="btn btn-success" href="{{urlfor "CertificatesController.Renew" ":key" .Details.Name}}"><i class="fas fa-recycle"></i></a>
                     {{else}}
-                    <a class="btn btn-primary" disabled><i class="fas fa-recycle"></i></a>
+                    <a class="btn btn-success" disabled><i class="fas fa-recycle"></i></a>
                     {{ end }}
                     <a href="{{urlfor "CertificatesController.Download" ":key" .Details.Name}}" class="btn btn-primary"><i class="fas fa-download"></i></a>
                   </div>
