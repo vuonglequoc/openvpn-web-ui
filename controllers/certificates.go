@@ -87,31 +87,6 @@ func validateCertParams(cert NewCertParams) map[string]map[string]string {
 	return nil
 }
 
-func saveClientConfig(name string) (string, error) {
-	cfg := config.New()
-	serverConfig := models.OVConfig{Profile: "default"}
-	serverConfig.Read("Profile")
-
-	cfg.Proto = serverConfig.Proto
-	cfg.ServerAddress = models.GlobalCfg.ServerAddress
-	cfg.Port = serverConfig.Port
-
-	cfg.Cert = "client_" + name + ".crt"
-	cfg.Key = "client_" + name + ".key"
-
-	cfg.Cipher = serverConfig.Cipher
-	cfg.Auth = serverConfig.Auth
-
-	destPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/client_" + name + ".conf"
-	if err := config.SaveToFile("conf/openvpn-client-config.tpl",
-		cfg, destPath); err != nil {
-		beego.Error(err)
-		return "", err
-	}
-
-	return destPath, nil
-}
-
 // @router /certificates/revoke/:key [get]
 func (c *CertificatesController) Revoke() {
 	name := c.GetString(":key")
@@ -178,6 +153,31 @@ func (c *CertificatesController) Download() {
 	if err := zw.Close(); err != nil {
 		beego.Error(err)
 	}
+}
+
+func saveClientConfig(name string) (string, error) {
+	cfg := config.New()
+	serverConfig := models.OVConfig{Profile: "default"}
+	serverConfig.Read("Profile")
+
+	cfg.Proto = serverConfig.Proto
+	cfg.ServerAddress = models.GlobalCfg.ServerAddress
+	cfg.Port = serverConfig.Port
+
+	cfg.Cert = "client_" + name + ".crt"
+	cfg.Key = "client_" + name + ".key"
+
+	cfg.Cipher = serverConfig.Cipher
+	cfg.Auth = serverConfig.Auth
+
+	destPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/client_" + name + ".conf"
+	if err := config.SaveToFile("conf/openvpn-client-config.tpl",
+		cfg, destPath); err != nil {
+		beego.Error(err)
+		return "", err
+	}
+
+	return destPath, nil
 }
 
 func addFileToZip(zw *zip.Writer, path string) error {
