@@ -9,11 +9,11 @@ key {{ .Key }}
 
 dh {{ .Dh }}
 
-server 10.8.0.0 255.255.255.0
+server {{ .Server }}
 
 ifconfig-pool-persist {{ .IfconfigPoolPersist }}
 
-push "route 10.8.0.0 255.255.255.0"
+push "route {{ .Server }}"
 
 push "redirect-gateway def1 bypass-dhcp"
 
