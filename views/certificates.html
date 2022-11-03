@@ -5,8 +5,12 @@
 {{end}}
 
 {{define "body"}}
+<div class="tab">
+  <button class="tablinks active" onclick="openTab(event, 'certs_info')">Clients certificates</button>
+  <button class="tablinks" onclick="openTab(event, 'certs_new')">Create a new certificate</button>
+</div>
 
-<div class="row">
+<div id="certs_info" class="row tabcontent"  style="display: block;">
   <div class="col-md-12">
     <div class="box box-info">
       <div class="box-header with-border">
@@ -104,7 +108,7 @@
   </div>
 </div>
 
-<div class="box box-primary">
+<div id="certs_new" class="box box-primary tabcontent">
   <div class="box-header with-border">
     <h3 class="box-title">Create a new certificate</h3>
   </div>
@@ -166,6 +170,6 @@
     <div class="box-footer">
       <button type="submit" class="btn btn-primary">Create</button>
     </div>
-    </form>
-    </div>
+  </form>
+</div>
 {{end}}
