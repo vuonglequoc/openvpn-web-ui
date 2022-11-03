@@ -145,7 +145,11 @@
       <!-- /.box-header -->
 
       <div class="box-body">
-        {{if .ovstatus}}
+        {{ if not .ovstatus }}
+          Fix your configuration
+        {{ else if eq (len .ovstatus) 0 }}
+          No connection
+        {{ else }}
         <div class="table-responsive">
           <table class="table no-margin">
             <thead>
@@ -178,7 +182,7 @@
                 <td align="right" style="padding-right:20px">
                     {{printkb .BytesSent}}
                 </td>
-                <td>{{.ConnectedSince}}</td>
+                <td>{{.ConnectedSinceT}}</td>
                 <td>
                   {{if eq .Username "UNDEF"}}
                     -
@@ -198,9 +202,7 @@
           </table>
         </div>
         <!-- /.table-responsive -->
-      {{else}}
-          Fix your configuration
-      {{end}}
+        {{ end }}
       </div>
       <div class="box-footer clearfix">
       </div>
