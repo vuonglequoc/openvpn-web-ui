@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		{{template "common/header.html" .}}
-		{{template "head" .}}
-	</head>
+  <head>
+    {{template "common/header.html" .}}
+    {{template "head" .}}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  </head>
   <body class="hold-transition skin-blue layout-top-nav">
   <div class="wrapper">
     <header class="main-header">
@@ -44,6 +52,6 @@
         {{ template "body" . }}
       </section>
 
-	{{template "common/footer.html" .}}
-	</body>
+  {{template "common/footer.html" .}}
+  </body>
 </html>

@@ -111,34 +111,35 @@ func trim(s string) string {
 	return strings.Trim(strings.Trim(s, "\r\n"), "\n")
 }
 
+// Easy-RSA 3
+// init-pki
+// build-ca [ cmd-opts ]
+// gen-dh
+// gen-req <filename_base> [ cmd-opts ]
+// sign-req <type> <filename_base>
+// build-client-full <filename_base> [ cmd-opts ]
+// build-server-full <filename_base> [ cmd-opts ]
+// revoke <filename_base> [cmd-opts]
+// renew <filename_base> [cmd-opts]
+// build-serverClient-full <filename_base> [ cmd-opts ]
+// gen-crl
+// update-db
+// show-req <filename_base> [ cmd-opts ]
+// show-cert <filename_base> [ cmd-opts ]
+// show-ca [ cmd-opts ]
+// import-req <request_file_path> <short_basename>
+// export-p7 <filename_base> [ cmd-opts ]
+// export-p8 <filename_base> [ cmd-opts ]
+// export-p12 <filename_base> [ cmd-opts ]
+// set-rsa-pass <filename_base> [ cmd-opts ]
+// set-ec-pass <filename_base> [ cmd-opts ]
+// upgrade <type>
+
 func CreateCertificate(name string) error {
+	// Old
 	// source /etc/openvpn/keys/vars \
 	// 	&& export KEY_NAME=[name] \
 	// 	&& /usr/share/easy-rsa/build-key --batch [name]
-
-	// Easy-RSA 3
-	// init-pki
-	// build-ca [ cmd-opts ]
-	// gen-dh
-	// gen-req <filename_base> [ cmd-opts ]
-	// sign-req <type> <filename_base>
-	// build-client-full <filename_base> [ cmd-opts ]
-	// build-server-full <filename_base> [ cmd-opts ]
-	// revoke <filename_base> [cmd-opts]
-	// renew <filename_base> [cmd-opts]
-	// build-serverClient-full <filename_base> [ cmd-opts ]
-	// gen-crl
-	// update-db
-	// show-req <filename_base> [ cmd-opts ]
-	// show-cert <filename_base> [ cmd-opts ]
-	// show-ca [ cmd-opts ]
-	// import-req <request_file_path> <short_basename>
-	// export-p7 <filename_base> [ cmd-opts ]
-	// export-p8 <filename_base> [ cmd-opts ]
-	// export-p12 <filename_base> [ cmd-opts ]
-	// set-rsa-pass <filename_base> [ cmd-opts ]
-	// set-ec-pass <filename_base> [ cmd-opts ]
-	// upgrade <type>
 
 	rsaPath := "/usr/share/easy-rsa/"
 	ovpnPath := models.GlobalCfg.OVConfigPath
@@ -188,6 +189,30 @@ func CreateCertificate(name string) error {
 			caPath, name, ovpnPath, name))
 	cmd.Dir = caPath
 	output, err = cmd.CombinedOutput()
+	if err != nil {
+		beego.Debug(string(output))
+		beego.Error(err)
+		return err
+	}
+
+	return nil
+}
+
+func RevokeCertificate(name string) error {
+	// Old
+	// source /etc/openvpn/keys/vars \
+	// 	&& export KEY_NAME=[name] \
+	// 	&& /usr/share/easy-rsa/revoke-key [name]
+
+	rsaPath := "/usr/share/easy-rsa/"
+
+	cmd := exec.Command(
+		"/bin/sh",
+		"-c",
+		fmt.Sprintf(
+			"echo -e \"yes\" | %s/easyrsa revoke client_%s", rsaPath, name))
+	cmd.Dir = models.GlobalCfg.CAConfigPath
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		beego.Debug(string(output))
 		beego.Error(err)
