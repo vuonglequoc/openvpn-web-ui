@@ -131,7 +131,7 @@ Execute commands:
     ├── models                      # MVC
     ├── routers                     # Application routes
     ├── static                      # CSS, Img, JS
-    ├── swagger                     # RESTful APIs
+    ├── swagger                     # RESTful APIs (beego generated)
     ├── vendor
     ├── view                        # MVC - AdminLTE
     │   ├── common
@@ -158,7 +158,7 @@ Execute commands:
     ├── db
     │   └── data.db
     ├── static
-    ├── swagger                     # RESTful APIs
+    ├── swagger
     ├── view                        # MVC
     │   ├── common
     │   │   ├── alert.html
@@ -241,6 +241,3 @@ To update dependencies from GOPATH:
 - FontAwesome 5.15.3
 - Ionicons 2.0.0
 - iCheck 1.0.2
-
-### RESTful APIs
-- [Swagger UI](https://github.com/swagger-api/swagger-ui)
