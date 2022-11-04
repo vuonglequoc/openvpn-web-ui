@@ -100,7 +100,6 @@ It starts two docker containers. One with OpenVPN server and second with OpenVPN
         └── db
             └── data.db
 
-
 ### Dev
 
 Requirements:
@@ -113,6 +112,64 @@ Execute commands:
     go get github.com/vuonglequoc/openvpn-web-ui
     cd $GOPATH/src/github.com/vuonglequoc/openvpn-web-ui
     bee run -gendoc=true
+
+### Source code structure
+
+    .
+    ├── build
+    │   ├── Dockerfile
+    │   └── [build scripts]
+    ├── conf
+    │   ├── app.conf
+    │   ├── openvpn-client-config.tpl
+    │   └── openvpn-server-config.tpl
+    ├── controllers                 # MVC
+    ├── docs
+    │   ├── docker-compose.yml
+    │   └── [documents]
+    ├── lib                         # Lib for controllers
+    ├── models                      # MVC
+    ├── routers                     # Application routes
+    ├── static                      # CSS, Img, JS
+    ├── swagger                     # RESTful APIs
+    ├── vendor
+    ├── view                        # MVC - AdminLTE
+    │   ├── common
+    │   │   ├── alert.html
+    │   │   ├── footer.html
+    │   │   ├── fvalid.html
+    │   │   └── [header].html
+    │   ├── layout
+    │   │   └── base.html
+    │   └── [page].html
+    ├── main.go
+    ├── go.mod
+    ├── go.sum
+    ├── LICENSE
+    └── README.md
+
+### Compiled structure
+
+    .
+    ├── conf
+    │   ├── app.conf
+    │   ├── openvpn-client-config.tpl
+    │   └── openvpn-server-config.tpl
+    ├── db
+    │   └── data.db
+    ├── static
+    ├── swagger                     # RESTful APIs
+    ├── view                        # MVC
+    │   ├── common
+    │   │   ├── alert.html
+    │   │   ├── footer.html
+    │   │   ├── fvalid.html
+    │   │   └── [header].html
+    │   ├── layout
+    │   │   └── base.html
+    │   └── [page].html
+    ├── openvpn-web-ui              # main app
+    └── LICENSE
 
 ## Important Note
 
@@ -178,4 +235,12 @@ To update dependencies from GOPATH:
 `go mod vendor`
 
 ### Template
-[AdminLTE](https://github.com/ColorlibHQ/AdminLTE) - dashboard & control panel theme. Built on top of Bootstrap 3.
+
+- [AdminLTE 2.3.7](https://github.com/ColorlibHQ/AdminLTE) - dashboard & control panel theme. Built on top of Bootstrap.
+- Bootstrap 3.3.7
+- FontAwesome 5.15.3
+- Ionicons 2.0.0
+- iCheck 1.0.2
+
+### RESTful APIs
+- [Swagger UI](https://github.com/swagger-api/swagger-ui)
