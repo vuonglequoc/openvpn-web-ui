@@ -2,3 +2,4 @@
 /openvpn-web-ui*
 /lastupdate.tmp
 routers/commentsRouter.go
+swagger
