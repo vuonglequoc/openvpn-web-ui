@@ -9,6 +9,7 @@ Goal: create quick to deploy and easy to use solution that makes work with small
 If you have docker and docker-compose installed, you can jump directly to [installation](#Prod).
 
 ![Status page](docs/images/preview_status.png?raw=true)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_shield)
 
 Please note this project is in alpha stage. It still needs some work to make it secure and feature complete.
 
@@ -147,6 +148,9 @@ Execute commands:
     ├── go.sum
     ├── LICENSE
     └── README.md
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_large)
 
 ### Compiled structure
 
