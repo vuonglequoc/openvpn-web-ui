@@ -1,5 +1,7 @@
 # OpenVPN-web-ui
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_shield)
+
 ## Summary
 
 OpenVPN server web administration interface.
@@ -9,7 +11,6 @@ Goal: create quick to deploy and easy to use solution that makes work with small
 If you have docker and docker-compose installed, you can jump directly to [installation](#Prod).
 
 ![Status page](docs/images/preview_status.png?raw=true)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_shield)
 
 Please note this project is in alpha stage. It still needs some work to make it secure and feature complete.
 
@@ -149,9 +150,6 @@ Execute commands:
     ├── LICENSE
     └── README.md
 
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_large)
-
 ### Compiled structure
 
     .
@@ -226,11 +224,6 @@ DbPath = "./data.db"
 * add versioning
 * add automatic ssl/tls (check how [ponzu](https://github.com/ponzu-cms/ponzu) did it)
 
-
-## License
-
-This project uses [MIT license](LICENSE)
-
 ## Remarks
 
 ### Vendoring
@@ -245,3 +238,9 @@ To update dependencies from GOPATH:
 - FontAwesome 5.15.3
 - Ionicons 2.0.0
 - iCheck 1.0.2
+
+## License
+
+This project uses [MIT license](LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_large)
