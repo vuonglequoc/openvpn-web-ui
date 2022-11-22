@@ -1,5 +1,6 @@
 # OpenVPN-web-ui
 
+[![Build Status](https://jenkins.kinguda.com/buildStatus/icon?job=openvpn-web-ui)](https://jenkins.kinguda.com/buildStatus/icon?job=openvpn-web-ui)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvuonglequoc%2Fopenvpn-web-ui?ref=badge_shield)
 
 ## Summary
