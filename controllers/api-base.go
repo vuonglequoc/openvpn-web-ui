@@ -1,6 +1,8 @@
 package controllers
 
-import "github.com/beego/beego"
+import (
+	"github.com/beego/beego/v2/core/logs"
+)
 
 type APIBaseController struct {
 	BaseController
@@ -55,7 +57,7 @@ func (c *APIBaseController) ServeJSONError(message string) {
 		Status:  "error",
 		Message: message,
 	}
-	beego.Warning(message)
+	logs.Warning(message)
 	c.Ctx.Output.SetStatus(400)
 	c.ServeJSON()
 }

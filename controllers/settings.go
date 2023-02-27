@@ -4,8 +4,10 @@ import (
 	"html/template"
 
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
-	"github.com/beego/beego/orm"
+
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/client/orm"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type SettingsController struct {
@@ -37,7 +39,7 @@ func (c *SettingsController) Post() {
 	settings := models.Settings{Profile: "default"}
 	settings.Read("Profile")
 	if err := c.ParseForm(&settings); err != nil {
-		beego.Warning(err)
+		logs.Warning(err)
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 		return

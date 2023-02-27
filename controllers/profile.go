@@ -7,9 +7,11 @@ import (
 
 	"github.com/vuonglequoc/openvpn-web-ui/lib"
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
-	"github.com/beego/beego/orm"
-	"github.com/beego/beego/validation"
+
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/validation"
+	"github.com/beego/beego/v2/client/orm"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ProfileController struct {
@@ -40,7 +42,7 @@ func (c *ProfileController) Post() {
 
 	user := models.User{}
 	if err := c.ParseForm(&user); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 		return
@@ -75,7 +77,7 @@ func validateUser(user models.User) map[string]map[string]string {
 	valid := validation.Validation{}
 	b, err := valid.Valid(&user)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return nil
 	}
 	if !b {

@@ -3,7 +3,8 @@ package controllers
 import (
 	"github.com/vuonglequoc/openvpn-web-ui/lib"
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
+
+	"github.com/beego/beego/v2/core/logs"
 
 	mi "github.com/vuonglequoc/go-openvpn/server/mi"
 )
@@ -28,7 +29,7 @@ func (c *MainController) Get() {
 	client := mi.NewClient(models.GlobalCfg.MINetwork, models.GlobalCfg.MIAddress)
 	status, err := client.GetStatus()
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	} else {
 		c.Data["ovstatus"] = status
 	}
@@ -36,7 +37,7 @@ func (c *MainController) Get() {
 
 	version, err := client.GetVersion()
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	} else {
 		c.Data["ovversion"] = version.OpenVPN
 	}
@@ -44,7 +45,7 @@ func (c *MainController) Get() {
 
 	pid, err := client.GetPid()
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	} else {
 		c.Data["ovpid"] = pid
 	}
@@ -52,7 +53,7 @@ func (c *MainController) Get() {
 
 	loadStats, err := client.GetLoadStats()
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	} else {
 		c.Data["ovstats"] = loadStats
 	}

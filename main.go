@@ -3,7 +3,8 @@ package main
 import (
 	"github.com/vuonglequoc/openvpn-web-ui/lib"
 	_ "github.com/vuonglequoc/openvpn-web-ui/routers"
-	"github.com/beego/beego"
+
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 func main() {

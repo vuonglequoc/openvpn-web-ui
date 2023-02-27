@@ -6,7 +6,8 @@ import (
 	"strings"
 
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
+
+	"github.com/beego/beego/v2/core/logs"
 )
 
 type LogsController struct {
@@ -30,34 +31,36 @@ func (c *LogsController) Get() {
 	settings.Read("Profile")
 
 	if err := settings.Read("OVConfigPath"); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return
 	}
 
+	// run_logs
 	fName := settings.OVConfigPath + "log/openvpn.log"
 	file, err := os.Open(fName)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
-	var logs []string
+	var run_logs []string
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.Index(line, " MANAGEMENT: ") == -1 {
-			logs = append(logs, strings.Trim(line, "\t"))
+			run_logs = append(run_logs, strings.Trim(line, "\t"))
 		}
 	}
-	start := len(logs) - 200
+	start := len(run_logs) - 200
 	if start < 0 {
 		start = 0
 	}
-	c.Data["logs"] = reverse(logs[start:])
+	c.Data["logs"] = reverse(run_logs[start:])
 
+	// status_logs
 	fName = settings.OVConfigPath + "log/openvpn-status.log"
 	file, err = os.Open(fName)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 	defer file.Close()
 	scanner = bufio.NewScanner(file)

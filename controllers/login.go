@@ -8,7 +8,8 @@ import (
 	passlib "gopkg.in/hlandau/passlib.v1"
 
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
+
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type LoginController struct {

@@ -8,8 +8,10 @@ import (
 	"time"
 
 	mi "github.com/vuonglequoc/go-openvpn/server/mi"
+
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
+
+	"github.com/beego/beego/v2/core/logs"
 )
 
 //Cert
@@ -104,7 +106,7 @@ func parseDetails(d string) *Details {
 			case "CN":
 				details.CommonName = fields[1]
 			default:
-				beego.Warn(fmt.Sprintf("Undefined entry: %s", line))
+				logs.Warn(fmt.Sprintf("Undefined entry: %s", line))
 			}
 		}
 	}
@@ -202,8 +204,8 @@ func CreateCertificate(cert NewCertParams) error {
 	cmd.Dir = ovpnPath
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 		return err
 	}
 
@@ -218,8 +220,8 @@ func CreateCertificate(cert NewCertParams) error {
 	cmd.Dir = caPath
 	output, err = cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 		return err
 	}
 
@@ -233,8 +235,8 @@ func CreateCertificate(cert NewCertParams) error {
 	cmd.Dir = caPath
 	output, err = cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 		return err
 	}
 
@@ -262,8 +264,8 @@ func RevokeCertificate(name string) error {
 	cmd.Dir = caPath
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 		return err
 	}
 
@@ -278,15 +280,15 @@ func RevokeCertificate(name string) error {
 	cmd.Dir = caPath
 	output, err = cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 		return err
 	}
 
 	// Restart OpenVPN
 	client := mi.NewClient(models.GlobalCfg.MINetwork, models.GlobalCfg.MIAddress)
 	if err := client.Signal("SIGTERM"); err != nil {
-		beego.Warning("Config has been updated but OpenVPN server was NOT reloaded: " + err.Error())
+		logs.Warning("Config has been updated but OpenVPN server was NOT reloaded: " + err.Error())
 		return err
 	}
 
@@ -304,8 +306,8 @@ func RenewCertificate(name string) error {
 	cmd.Dir = models.GlobalCfg.CAConfigPath
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 		return err
 	}
 

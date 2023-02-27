@@ -10,10 +10,13 @@ import (
 	"time"
 
 	"github.com/vuonglequoc/go-openvpn/client/config"
+
 	"github.com/vuonglequoc/openvpn-web-ui/lib"
 	"github.com/vuonglequoc/openvpn-web-ui/models"
-	"github.com/beego/beego"
-	"github.com/beego/beego/validation"
+
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/validation"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type CertificatesController struct {
@@ -40,7 +43,7 @@ func (c *CertificatesController) showCerts() {
 	path := models.GlobalCfg.CAConfigPath + "pki/index.txt"
 	certs, err := lib.ReadCerts(path)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 	lib.Dump(certs)
 
@@ -59,7 +62,7 @@ func (c *CertificatesController) Post() {
 
 	cParams := lib.NewCertParams{}
 	if err := c.ParseForm(&cParams); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 	} else {
@@ -67,7 +70,7 @@ func (c *CertificatesController) Post() {
 			c.Data["validation"] = vMap
 		} else {
 			if err := lib.CreateCertificate(cParams); err != nil {
-				beego.Error(err)
+				logs.Error(err)
 				flash.Error(err.Error())
 				flash.Store(&c.Controller)
 			}
@@ -81,7 +84,7 @@ func validateCertParams(cert lib.NewCertParams) map[string]map[string]string {
 	valid := validation.Validation{}
 	b, err := valid.Valid(&cert)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return nil
 	}
 	if !b {
@@ -147,14 +150,14 @@ func (c *CertificatesController) Download() {
 	cmd.Dir = ovpnPath + "client-configs"
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		beego.Debug(string(output))
-		beego.Error(err)
+		logs.Debug(string(output))
+		logs.Error(err)
 	}
 
 	addFileToZip(zw, keysPathOvpn+"client_"+name+".ovpn")
 
 	if err := zw.Close(); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 }
 
@@ -178,7 +181,7 @@ func saveClientConfig(name string) (string, error) {
 	destPath := models.GlobalCfg.OVConfigPath + "client-configs/keys/client_" + name + ".conf"
 	if err := config.SaveToFile("conf/openvpn-client-config.tpl",
 		cfg, destPath); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return "", err
 	}
 
@@ -194,18 +197,18 @@ func addFileToZip(zw *zip.Writer, path string) error {
 	}
 	fi, err := os.Open(path)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return err
 	}
 
 	fw, err := zw.CreateHeader(header)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return err
 	}
 
 	if _, err = io.Copy(fw, fi); err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		return err
 	}
 

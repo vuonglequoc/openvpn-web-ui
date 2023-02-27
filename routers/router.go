@@ -2,14 +2,15 @@
 // @APIVersion 1.0.0
 // @Title OpenVPN API
 // @Description REST API allows you to control and monitor your OpenVPN server
-// @Contact adam.walach@gmail.com
+// @Contact lelordoftech@gmail.com
 // License Apache 2.0
 // LicenseUrl http://www.apache.org/licenses/LICENSE-2.0.html
 package routers
 
 import (
 	"github.com/vuonglequoc/openvpn-web-ui/controllers"
-	"github.com/beego/beego"
+
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {

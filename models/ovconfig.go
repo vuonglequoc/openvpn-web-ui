@@ -2,7 +2,8 @@ package models
 
 import (
 	"github.com/vuonglequoc/go-openvpn/server/config"
-	"github.com/beego/beego/orm"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 //OVConfig holds values for OpenVPN config file

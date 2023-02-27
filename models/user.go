@@ -3,8 +3,8 @@ package models
 import (
 	"time"
 
-	"github.com/beego/beego/orm"
-	"github.com/beego/beego/validation"
+	"github.com/beego/beego/v2/core/validation"
+	"github.com/beego/beego/v2/client/orm"
 
 	//Sqlite driver
 	_ "github.com/mattn/go-sqlite3"
