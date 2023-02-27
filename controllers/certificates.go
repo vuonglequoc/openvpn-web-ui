@@ -44,7 +44,9 @@ func (c *CertificatesController) showCerts() {
 	certs, err := lib.ReadCerts(path)
 	if err != nil {
 		logs.Error(err)
+		return
 	}
+
 	lib.Dump(certs)
 
 	// The first Certs maybe belong to the VPN Server with CN name not server
