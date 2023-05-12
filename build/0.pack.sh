@@ -3,7 +3,9 @@
 set -e
 
 PKGFILE=openvpn-web-ui.tar.gz
-rm ../$PKGFILE
+if [ -f $PKGFILE ]; then
+    rm ../$PKGFILE
+fi
 
 time docker run \
     -v "$PWD/../":/go/src/github.com/vuonglequoc/openvpn-web-ui \
