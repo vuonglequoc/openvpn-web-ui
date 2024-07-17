@@ -1,5 +1,5 @@
 # Refer to https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.0
+FROM alpine:3.20.1
 
 MAINTAINER Vuong Le lelordoftech@gmail.com
 
