@@ -1,7 +1,7 @@
 # Refer to https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.1
+FROM alpine:3.20.3
 
-MAINTAINER Vuong Le lelordoftech@gmail.com
+LABEL org.opencontainers.image.authors="Vuong Le lelordoftech@gmail.com"
 
 # easy-rsa
 RUN apk update \
