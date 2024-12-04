@@ -26,4 +26,4 @@ ADD assets/app.conf /opt/openvpn-gui/conf/app.conf
 
 EXPOSE 8080/tcp
 
-CMD /opt/start.sh
+CMD ["/opt/start.sh"]

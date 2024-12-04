@@ -106,9 +106,9 @@ It starts two docker containers. One with OpenVPN server and second with OpenVPN
 ### Dev
 
 Requirements:
-* [golang 1.23.2](https://hub.docker.com/_/golang)
-* [beego v2.3.1](https://github.com/beego/beego)
-* [bee v2.1.0](https://github.com/beego/bee)
+* [golang 1.23.4](https://hub.docker.com/_/golang)
+* [beego v2.3.3](https://github.com/beego/beego)
+* [bee v2.3.0](https://github.com/beego/bee)
 
 Execute commands:
 
