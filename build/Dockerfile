@@ -1,5 +1,5 @@
 # Refer to https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.3
+FROM alpine:3.21.1
 
 LABEL org.opencontainers.image.authors="Vuong Le lelordoftech@gmail.com"
 
